@@ -1,0 +1,83 @@
+
+................For Server...............
+1 => install dependencies
+        1. "express": "",
+
+        2. "body-parser": "",
+
+        3. "cors": "",
+
+        4. "dotenv": "",
+
+        5. "mongoose": "",
+        
+        6. "jsonwebtoken": "",
+
+        7. "bcrypt": "",
+
+        8."concurrently": "",
+
+2 => Create Database Connection
+
+3 => Create Database Model
+
+4 => create controllers
+        ==>create Validation (validator)
+        ==>Error Handleing (utils)
+
+4 => create routers
+
+
+
+
+
+----------------connect frontEnd and backend-------------------
+
+=====> server package.json..
+"scripts": {
+                "start": "node server.js",
+                "server": "nodemon server.js",
+                "client": "npm start --prefix client/",
+                "dev": "concurrently \"npm run server\" \"npm run client\" ",
+                "test": "echo \"Error: no test specified\" && exit 1"
+                },
+
+=====> client package.json..
+
+  "proxy": "http://localhost:4000"
+
+................For Client...............
+
+install dependencies
+        1. "react-bootstrap": "^2.1.1",
+
+        2. "react-router-dom": "^6.2.1",
+
+        3. "@reduxjs/toolkit": "^1.7.1",
+
+        4. "react-redux": "^7.2.6",
+
+        5. "axios": "^0.24.0",
+        
+        6. "jsonwebtoken": "",
+
+        7. "bcrypt": "",
+
+        8."concurrently": "",
+
+1. =>npx create-react-app client
+
+2. =>set all components
+
+3. =>
+
+
+
+
+
+
+
+
+
+
+
