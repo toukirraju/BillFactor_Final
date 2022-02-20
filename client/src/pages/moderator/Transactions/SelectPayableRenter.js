@@ -15,6 +15,7 @@ function SelectPayableRenter(props) {
   const { data } = useSelector((state) => state.renterCreator);
   const { isAdded } = useSelector((state) => state.assingRenter);
   const { apartments } = useSelector((state) => state.moderator);
+  const { transactions } = useSelector((state) => state.transaction);
 
   const [makeTransactionModal, setmakeTransactionModal] = React.useState(false);
   const [apartmentDetail, setapartmentDetail] = React.useState({});
