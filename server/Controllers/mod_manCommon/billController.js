@@ -27,6 +27,7 @@ module.exports = {
 
     let tempObj = new Object({
       renterId: req.body.renterId,
+      renterName: req.body.renterName,
       e_bill: 0,
       o_bill: 0,
       tempDue: req.body.due,
@@ -110,33 +111,17 @@ module.exports = {
       });
   },
 
-  getTempBill(req, res) {
-    let { _id } = req.user;
-
-    let tempObj = new Object({
-      e_bill: 0,
-      o_bill: 0,
-      tempDue: 0,
-    });
-
-    TempBillModel.findOne({ adminId: _id })
-      .then((temp) => {
-        if (temp != null) {
-          if (temp.tempBills.length != 0) {
-            let existingTempBill;
-            temp.tempBills.map((item) => {
-              if (item.renterId === req.params.renterId) {
-                return (existingTempBill = item);
-              } else {
-                return (existingTempBill = tempObj);
-              }
-            });
-            res.status(200).json(existingTempBill);
-          } else {
-            return resourceError(res, "Please Create temp");
-          }
+  removeBill(req, res) {
+    BillModel.updateMany({}, { $pull: { bills: { _id: req.params._id } } })
+      .then((result) => {
+        if (result.modifiedCount) {
+          res.status(200).json({
+            message: "Successfully Removed ",
+            // Floors: response.data,
+          });
+          // res.send("Successfully Removed Apartment");
         } else {
-          return resourceError(res, "Temp not found");
+          return resourceError(res, "Somthing went wrong");
         }
       })
       .catch((error) => serverError(res, error));
@@ -184,6 +169,139 @@ module.exports = {
           }
         } else {
           return resourceError(res, "No bill found");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
+  getTempBill(req, res) {
+    let { _id } = req.user;
+
+    let tempObj = new Object({
+      e_bill: 0,
+      o_bill: 0,
+      tempDue: 0,
+    });
+
+    TempBillModel.findOne({ adminId: _id })
+      .then((temp) => {
+        if (temp != null) {
+          if (temp.tempBills.length != 0) {
+            let existingTempBill;
+            temp.tempBills.map((item) => {
+              if (item.renterId === req.params.renterId) {
+                return (existingTempBill = item);
+              }
+              // else {
+              //   // return (existingTempBill = tempObj);
+              // }
+            });
+
+            res.status(200).json(existingTempBill);
+          } else {
+            return resourceError(res, "Please Create temp");
+          }
+        } else {
+          // return resourceError(res, "Temp not found");
+          res.status(200).json(tempObj);
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
+  createTemp(req, res) {
+    const { name, _id } = req.user;
+    let tempObj = new Object({
+      renterId: req.body.renterId,
+      renterName: req.body.renterName,
+      e_bill: req.body.e_bill,
+      o_bill: req.body.o_bill,
+      tempDue: req.body.tempDue,
+    });
+
+    let tempData = new TempBillModel({
+      name: name,
+      adminId: _id,
+      tempBills: tempObj,
+    });
+
+    TempBillModel.findOne({ adminId: _id })
+      .then((temp) => {
+        if (temp == null) {
+          tempData
+            .save()
+            .then((response) => {
+              res.status(201).json({
+                message: "Created Successfully",
+              });
+            })
+            .catch((error) => serverError(res, error));
+        } else {
+          if (temp.tempBills.length == 0) {
+            temp.tempBills.push(tempObj);
+            temp
+              .save()
+              .then((response) => {
+                res.status(201).json({
+                  message: "Created Successfully",
+                });
+              })
+              .catch((error) => serverError(res, error));
+          } else {
+            let existingTempBill;
+            temp.tempBills.map((item) => {
+              if (item.renterId == req.body.renterId) {
+                return (existingTempBill = item);
+              }
+            });
+
+            if (existingTempBill) {
+              existingTempBill.e_bill =
+                parseInt(existingTempBill.e_bill) + parseInt(req.body.e_bill);
+              existingTempBill.o_bill =
+                parseInt(existingTempBill.o_bill) + parseInt(req.body.o_bill);
+              existingTempBill.tempDue =
+                parseInt(existingTempBill.tempDue) + parseInt(req.body.tempDue);
+              temp
+                .save()
+                .then((response) => {
+                  res.status(201).json({
+                    message: "update Successfully",
+                  });
+                })
+                .catch((error) => serverError(res, error));
+            } else {
+              temp.tempBills.push(tempObj);
+              temp
+                .save()
+                .then((response) => {
+                  res.status(201).json({
+                    message: "Created Successfully",
+                  });
+                })
+                .catch((error) => serverError(res, error));
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        serverError(res, error);
+      });
+  },
+
+  allTempBills(req, res) {
+    let { _id } = req.user;
+
+    TempBillModel.findOne({ adminId: _id })
+      .then((result) => {
+        if (result != null) {
+          if (result.tempBills.length != 0) {
+            res.status(200).json(result.tempBills);
+          } else {
+            return resourceError(res, "No TempBill Found");
+          }
+        } else {
+          return resourceError(res, "No TempBill found");
         }
       })
       .catch((error) => serverError(res, error));

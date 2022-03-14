@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, FormCheck } from "react-bootstrap";
 import ConfirmationPopUp from "../../../../components/confirmationPopUp/ConfirmationPopUp";
 
-const MakeTransactionModal = (props) => {
+const CreateTransactionModal = (props) => {
   const [confirmationPopUp, setConfirmationPopUp] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isDetailsSwitchOn, setIsDetailsSwitchOn] = useState(true);
@@ -87,12 +87,12 @@ const MakeTransactionModal = (props) => {
     setTransAmount({
       renterId: renterId,
       renterName: renterName,
-      e_bill: props.tempBill.e_bill,
-      o_bill: props.tempBill.o_bill,
+      e_bill: props.tempBill.e_bill ? props.tempBill.e_bill : 0,
+      o_bill: props.tempBill.o_bill ? props.tempBill.o_bill : 0,
       totalRent: totalRent,
       payableAmount: 0,
       paidAmount: 0,
-      due: props.tempBill.tempDue,
+      due: props.tempBill.tempDue ? props.tempBill.tempDue : 0,
     });
   }, [props.tempBill]);
 
@@ -243,4 +243,4 @@ const MakeTransactionModal = (props) => {
   );
 };
 
-export default MakeTransactionModal;
+export default CreateTransactionModal;

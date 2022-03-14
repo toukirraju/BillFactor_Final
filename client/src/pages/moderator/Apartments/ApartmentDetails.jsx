@@ -56,19 +56,23 @@ const ApartmentDetails = () => {
   }, [isAdded, dispatch]);
 
   const levelAndApartmentCount = (aprtmnts) => {
-    const allLevels = aprtmnts.map((item) => item.level);
-    let result = Object.values(
-      allLevels.reduce((previousValue, currentValue) => {
+    const allLevel = aprtmnts.map((item) => item.level);
+
+    let floor = Object.values(
+      allLevel.reduce((previousValue, currentValue) => {
         previousValue[currentValue] = previousValue[currentValue] || [
           currentValue,
           0,
         ];
         previousValue[currentValue][1]++;
+
         return previousValue;
       }, {})
-    ).map((value) => ({ levels: value[0], apartments: value[1] }));
-
-    return result;
+    ).map((value) => ({
+      floor: value[0],
+      rooms: value[1],
+    }));
+    return floor;
   };
 
   return (
@@ -104,8 +108,9 @@ const ApartmentDetails = () => {
           levelAndApartmentCount(apartments.floors).map((count, index) => (
             <>
               <div className="text-center container cardBody">
-                <h1>{`Floor ${count.levels}`}</h1>
-                <h5>{`Apartments ${count.apartments}`}</h5>
+                <h1>{`Floor ${count.floor}`}</h1>
+                {/* <h5>{`Apartments ${count.apartments}`}</h5> */}
+                <h5>{`Rooms ${count.rooms}`}</h5>
                 <>
                   <div className="table-responsive">
                     <table class="table align-middle table-hover">
@@ -124,7 +129,7 @@ const ApartmentDetails = () => {
                       </thead>
 
                       {apartments.floors.map((newItem) => {
-                        if (newItem.level === count.levels) {
+                        if (count.floor == newItem.level) {
                           return (
                             <>
                               <tbody>
@@ -178,7 +183,7 @@ const ApartmentDetails = () => {
                 <button
                   className="btn btn-warning"
                   // onClick={() => console.log(count.levels)}
-                  onClick={() => addApartment(count.levels)}
+                  onClick={() => addApartment(count.floor)}
                 >
                   Add
                 </button>

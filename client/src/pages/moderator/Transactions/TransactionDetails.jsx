@@ -2,28 +2,86 @@ import React, { useEffect } from "react";
 import "../moderatorPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import CircularNavBarTop from "../circularNavBar/CircularNavBarTop";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import CircularNavBarBottom from "../circularNavBar/CircularNavBarBottom";
-import { getMonthlyTransactions } from "../../../redux/slices/transactionSlice";
+import {
+  getAllTempBill,
+  getMonthlyTransactions,
+} from "../../../redux/slices/transactionSlice";
 import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
+import { AgGridReact } from "ag-grid-react";
+import ConfirmationPopUp from "../../../components/confirmationPopUp/ConfirmationPopUp";
 
 const TransactionDetails = () => {
   const dispatch = useDispatch();
-  const { transactions, isAdded } = useSelector((state) => state.transaction);
+  const { transactions, allTemp, isAdded } = useSelector(
+    (state) => state.transaction
+  );
   const { message } = useSelector((state) => state.message);
 
+  const [removeId, setRemoveId] = React.useState(false);
+  const [confirmationPopUp, setConfirmationPopUp] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
-
   const month = startDate.getMonth() + 1;
   const year = startDate.getFullYear();
 
-  console.log(transactions);
   useEffect(() => {
     dispatch(getMonthlyTransactions({ month, year }));
+    dispatch(getAllTempBill());
   }, [isAdded, dispatch]);
+
+  const columns = [
+    { headerName: "Name", field: "renterName" },
+    { headerName: "Due", field: "tempDue" },
+    { headerName: "Electricity Bill", field: "e_bill" },
+    { headerName: "Others Bill", field: "o_bill" },
+  ];
+
+  function dateFormatter(params) {
+    return new Date(params.value).toDateString();
+  }
+  const transColumns = [
+    {
+      headerName: "Renter Name",
+      field: "renterName",
+    },
+    { headerName: "Electricity Bill", field: "e_bill" },
+    { headerName: "Others Bill", field: "o_bill" },
+    { headerName: "Payable Amount", field: "payableAmount" },
+    { headerName: "Paid Amount", field: "paidAmount" },
+    { headerName: "Due", field: "due" },
+    { headerName: "Date", field: "date", valueFormatter: dateFormatter },
+    {
+      headerName: "Actions",
+      field: "_id",
+      cellRendererFramework: (params) => (
+        <div>
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => handleRemove(params.data)}
+          >
+            Remove
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleRemove = (bill) => {
+    if (new Date(bill.date).getMonth() + 1 === new Date().getMonth() + 1) {
+      setConfirmationPopUp(true);
+      setRemoveId(bill._id);
+    } else {
+      toast.error("you can't remove this bill");
+    }
+  };
+
+  const defaultColDef = {
+    sortable: true,
+    filter: true,
+    floatingFilter: true,
+  };
 
   return (
     <>
@@ -31,8 +89,12 @@ const TransactionDetails = () => {
         <CircularNavBarTop />
         <CircularNavBarBottom />
 
-        <ToastContainer />
-
+        <ConfirmationPopUp
+          show={confirmationPopUp}
+          onHide={() => setConfirmationPopUp(false)}
+          data={removeId}
+          popUpType="Remove_Bill"
+        />
         {message && (
           <div className="form-group text-center">
             <div className="alert alert-danger" role="alert">
@@ -41,70 +103,63 @@ const TransactionDetails = () => {
           </div>
         )}
 
-        <div class="row">
-          <div class="col-sm-4">
-            <p class="float-start">left</p>
+        <div className="input-container">
+          <div>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              dateFormat="MMMM/yyyy"
+              showMonthYearPicker
+            />
           </div>
-          <div class="col-sm-8">
-            <p class="float-end d-flex">
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                dateFormat="MM/yyyy"
-                showMonthYearPicker
-              />
-              <button
-                onClick={() =>
-                  dispatch(getMonthlyTransactions({ month, year }))
-                }
-              >
-                show
-              </button>
-            </p>
+          <div>
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => dispatch(getMonthlyTransactions({ month, year }))}
+            >
+              &#x1F50E;
+            </button>
           </div>
         </div>
-        <div className="text-end"></div>
 
         {Object.keys(transactions).length !== 0 ? (
           <>
-            <div className="table-responsive container cardBody">
-              <h1 className="text-center">All Transactions</h1>
-
-              <table class="table align-middle table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Renter Name</th>
-                    <th scope="col">Electricity Bill</th>
-                    <th scope="col">Others Bill</th>
-                    <th scope="col">Total Rent</th>
-                    <th scope="col">Payable Amount</th>
-                    <th scope="col">Paid Amount</th>
-                    <th scope="col">Due</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                </thead>
-                {transactions.map((renter) => (
-                  <tbody>
-                    <tr>
-                      <td class="table-primary">{renter.renterName}</td>
-                      <td class="table-secondary">{renter.e_bill}</td>
-                      <td class="table-success">{renter.o_bill}</td>
-                      <td class="table-danger">{renter.totalRent}</td>
-                      <td class="table-warning">{renter.payableAmount}</td>
-                      <td class="table-info">{renter.paidAmount}</td>
-                      <td class="table-dark">{renter.due}</td>
-
-                      <td class="table-light">{renter.date}</td>
-                    </tr>
-                  </tbody>
-                ))}
-              </table>
+            <div className="row  mx-5">
+              <div className="col-md-7  cardBody">
+                <h1 className="text-center">All Transactions</h1>
+                <div
+                  className="ag-theme-alpine"
+                  style={{ height: 400, width: "100%" }}
+                >
+                  <AgGridReact
+                    rowData={transactions}
+                    columnDefs={transColumns}
+                    defaultColDef={defaultColDef}
+                  />
+                </div>
+              </div>
+              <div className="col-md-1"></div>
+              <div className="col-md-4 cardBody">
+                <h1 className="text-center">All Temp Bills</h1>
+                <div
+                  className="ag-theme-alpine"
+                  style={{ height: 300, width: "100%" }}
+                >
+                  <AgGridReact
+                    rowData={allTemp}
+                    columnDefs={columns}
+                    defaultColDef={defaultColDef}
+                  />
+                </div>
+              </div>
             </div>
           </>
         ) : (
           <>
-            <h1 className="text-center text-white">Transaction Not found</h1>
             <div class="d-flex justify-content-center">
+              <h1 className="text-center text-white">
+                Transaction Not found.....
+              </h1>
               <div class="spinner-border text-info" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>

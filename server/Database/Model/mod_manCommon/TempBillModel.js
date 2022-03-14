@@ -15,6 +15,9 @@ const tempBillSchema = new Schema({
       renterId: {
         type: String,
       },
+      renterName: {
+        type: String,
+      },
       e_bill: {
         type: Number,
       },

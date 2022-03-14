@@ -6,6 +6,7 @@ import RenterCreateModal from "../Renter/RenterCreateModal";
 import AssignApartment from "../AssignRenterToApartment/AssignApartment";
 import UnassignApartment from "../AssignRenterToApartment/UnassignApartment";
 import SelectPayableRenter from "../Transactions/SelectPayableRenter";
+import SelectRenter from "../SelectRenter";
 
 const CircularNavBarTop = () => {
   const [modalShow, setModalShow] = React.useState(false);
@@ -16,6 +17,8 @@ const CircularNavBarTop = () => {
   const [unassignApartment, setUnassignApartment] = React.useState(false);
   const [payableRenter, setPayableRenter] = React.useState(false);
   const [updateModalShow, setUpdateModalShow] = React.useState(false);
+
+  const [findRenter, setFindRenter] = React.useState(false);
 
   // const createModal = () => {
   //   setModalShow(true);
@@ -65,6 +68,8 @@ const CircularNavBarTop = () => {
           show={payableRenter}
           onHide={() => setPayableRenter(false)}
         />
+
+        <SelectRenter show={findRenter} onHide={() => setFindRenter(false)} />
       </div>
       <section className="menu menu--circle">
         <input type="checkbox" id="menu__active" />
@@ -152,7 +157,10 @@ const CircularNavBarTop = () => {
                 <div className="placeholder">
                   <div className="upside">
                     <a href={() => false} className="button">
-                      <i className="fa fa-calendar"></i>
+                      <i
+                        className="fas fa-file-search"
+                        onClick={() => setFindRenter(true)}
+                      ></i>
                     </a>
                   </div>
                 </div>

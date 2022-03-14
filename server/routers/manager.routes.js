@@ -1,14 +1,14 @@
-const router = require("express").Router();
-const authenticate = require("../authenticate");
+// const router = require("express").Router();
+// const authenticate = require("../authenticate");
 
-const {
-  createMess,
-  updateMess,
-  removeMess,
-} = require("../Controllers/managerController");
+// const {
+//   createMess,
+//   updateMess,
+//   removeMess,
+// } = require("../Controllers/managerController");
 
-router.post("/create", authenticate, createMess);
+// router.post("/create", authenticate, createMess);
 
-router.post("/update", updateMess);
+// router.post("/update", updateMess);
 
-module.exports = router;
+// module.exports = router;
