@@ -5,6 +5,8 @@ import apartmentReducer from "./slices/apartmentSlice";
 import renterReducer from "./slices/renterSlice";
 import assignReducer from "./slices/assignRenterSlice";
 import transactionReducer from "./slices/transactionSlice";
+import publicReducer from "./slices/publicDataSlice";
+import dashboardReducer from "./slices/dashboardSlice";
 
 export default configureStore({
   reducer: {
@@ -15,5 +17,7 @@ export default configureStore({
     renterCreator: renterReducer,
     assingRenter: assignReducer,
     transaction: transactionReducer,
+    publicData: publicReducer,
+    dashboardData: dashboardReducer,
   },
 });

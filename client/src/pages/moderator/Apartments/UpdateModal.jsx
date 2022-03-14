@@ -85,7 +85,7 @@ function UpdateModal(props) {
     //     });
     //   }
     // });
-  }, [props.data._id]);
+  }, [props]);
 
   const changeHandler = (event) => {
     const name = event.target.name;
@@ -120,44 +120,6 @@ function UpdateModal(props) {
                     <div className="row ">
                       <div className="col-md-12">
                         <form onSubmit={onSubmit}>
-                          {/* <div className="form-floating mb-3">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="floatingInput"
-                          name="numOfFloors"
-                          autoComplete="off"
-                          placeholder="numOfFloors"
-                          {...register("numOfFloors", { required: true })}
-                        />
-                        <label for="floatingInput">Number Of Floor</label>
-                        {errors.numOfFloors && (
-                          <span className="text-danger">
-                            This field is required
-                          </span>
-                        )}
-                      </div> */}
-
-                          {/* <div className="form-floating mb-3">
-                            <input
-                              type="number"
-                              className="form-control"
-                              id="floatingInput"
-                              name="gasbill"
-                              value={updatedData.gasbill || props.data.gasbill}
-                              onChange={changeHandler}
-                              autoComplete="off"
-                              placeholder="Gas Bill"
-                              //   {...register("numOfApart", { required: true })}
-                            />
-                            <label for="floatingInput">Gas Bill</label>
-                            {errors.numOfApart && (
-                          <span className="text-danger">
-                            This field is required
-                          </span>
-                        )}
-                          </div> */}
-
                           <div className="form-floating mb-3">
                             <input
                               type="text"
@@ -165,41 +127,13 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="apartNo"
                               autoComplete="off"
-                              value={updatedData.apartNo || props.data.apartNo}
+                              value={updatedData.apartNo}
                               onChange={changeHandler}
+                              required
                               placeholder="Apartment Id"
-                              //   {...register("apartNo", { required: true })}
                             />
                             <label for="floatingInput">Apartment Id</label>
-                            {/* {errors.apartNo && (
-                              <span className="text-danger">
-                                Apartment Id is required
-                              </span>
-                            )} */}
                           </div>
-
-                          {/* <div className="form-floating mb-3">
-                        <select
-                          className="form-select"
-                          id="floatingSelect"
-                          //aria-label="Floating label select example"
-                          //onChange={handelInputs}
-                          name="aprtStatus"
-                          {...register("aprtStatus", { required: true })}
-                        >
-                          <option selected value="">
-                            Select Apartment Status
-                          </option>
-                          <option value="Occupied">Occupied</option>
-                          <option value="Not Occupied">Not Occupied</option>
-                        </select>
-                        <label for="floatingSelect">Apartment Status</label>
-                        {errors.aprtStatus && (
-                          <span className="text-danger d-block">
-                            Apartment Status is required
-                          </span>
-                        )}
-                      </div> */}
 
                           <div className="form-floating mb-3">
                             <input
@@ -208,17 +142,12 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="roomNo"
                               autoComplete="off"
-                              value={updatedData.roomNo || props.data.roomNo}
+                              value={updatedData.roomNo}
                               onChange={changeHandler}
+                              required
                               placeholder="RoomNo"
-                              //   {...register("roomNo", { required: true })}
                             />
                             <label for="floatingInput">RoomNo</label>
-                            {/* {errors.roomNo && (
-                              <span className="text-danger">
-                                Room No is Required
-                              </span>
-                            )} */}
                           </div>
 
                           <div className="form-floating mb-3">
@@ -228,10 +157,10 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="rent"
                               autoComplete="off"
-                              value={updatedData.rent || props.data.rent}
+                              value={updatedData.rent}
                               onChange={changeHandler}
+                              required
                               placeholder="Enter your rent"
-                              //   {...register("rent")}
                             />
                             <label for="floatingInput">Rent</label>
                           </div>
@@ -243,10 +172,10 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="gasbill"
                               autoComplete="off"
-                              value={updatedData.gasbill || props.data.gasbill}
+                              value={updatedData.gasbill}
                               onChange={changeHandler}
+                              required
                               placeholder="Enter gasbill"
-                              //   {...register("gasbill")}
                             />
                             <label for="floatingInput">Gasbill</label>
                           </div>
@@ -258,12 +187,10 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="waterbill"
                               autoComplete="off"
-                              value={
-                                updatedData.waterbill || props.data.waterbill
-                              }
+                              value={updatedData.waterbill}
                               onChange={changeHandler}
+                              required
                               placeholder="Enter your waterbill"
-                              //   {...register("waterbill")}
                             />
                             <label for="floatingInput">Waterbill</label>
                           </div>
@@ -275,10 +202,10 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="f_bill"
                               autoComplete="off"
-                              value={updatedData.f_bill || props.data.f_bill}
+                              value={updatedData.f_bill}
                               onChange={changeHandler}
+                              required
                               placeholder="Enter f_bill"
-                              //   {...register("f_bill")}
                             />
                             <label for="floatingInput">f_bill</label>
                           </div>
@@ -290,12 +217,10 @@ function UpdateModal(props) {
                               id="floatingInput"
                               name="c_service"
                               autoComplete="off"
-                              value={
-                                updatedData.c_service || props.data.c_service
-                              }
+                              value={updatedData.c_service}
                               onChange={changeHandler}
+                              required
                               placeholder="Enter c_service"
-                              //   {...register("c_service")}
                             />
                             <label for="floatingInput">c_service</label>
                           </div>

@@ -19,10 +19,10 @@ const NavigationBar = () => {
   useEffect(() => {
     if (currentUser) {
       setShowManagerBoard(currentUser.type.includes("manager"));
-      setShowAdminBoard(currentUser.type.includes("ROLE_ADMIN"));
+      // setShowAdminBoard(currentUser.type.includes("ROLE_ADMIN"));
     } else {
       setShowManagerBoard(false);
-      setShowAdminBoard(false);
+      // setShowAdminBoard(false);
     }
 
     // EventBus.on("logout", () => {
@@ -62,33 +62,20 @@ const NavigationBar = () => {
                     className="navLink"
                   >
                     {/* <Link > */}
-                    Moderator Board
+                    Dashboard
                     {/* </Link> */}
                   </Nav.Link>
                 )}
-                {showAdminBoard && (
+                {/* {showAdminBoard && (
                   <Nav.Link
                     eventKey="3"
                     as={Link}
                     to="/admin"
                     className="navLink"
                   >
-                    {/* <Link > */}
                     Admin Board
-                    {/* </Link> */}
                   </Nav.Link>
-                )}
-
-                {currentUser && (
-                  <Nav.Link
-                    eventKey="4"
-                    as={Link}
-                    to="/user"
-                    className="navLink"
-                  >
-                    User
-                  </Nav.Link>
-                )}
+                )} */}
 
                 {currentUser ? (
                   <div className="navbar-nav ml-auto">

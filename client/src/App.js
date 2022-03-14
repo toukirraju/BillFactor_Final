@@ -4,13 +4,22 @@ import RegAndLogin from "./pages/Registration&Login/RegAndLogin";
 import NavigationBar from "./components/navigationBar/NavigationBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
-import ModeratorPage from "./pages/moderator/ModeratorPage";
+import ModeratorDashboard from "./pages/moderator/ModeratorDashboard";
 import AuthVerify from "./common/AuthVerify";
 import { logout } from "./redux/slices/auth";
 import { useDispatch, useSelector } from "react-redux";
 import ApartmentDetails from "./pages/moderator/Apartments/ApartmentDetails";
 import RenterDetails from "./pages/moderator/Renter/RenterDetails";
 import TransactionDetails from "./pages/moderator/Transactions/TransactionDetails";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
+
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+import "react-circular-progressbar/dist/styles.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +30,7 @@ function App() {
   };
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
         <NavigationBar />
         <Routes>
@@ -31,7 +41,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               {user.type === "manager" ? (
                 <>
-                  <Route path="/mod" element={<ModeratorPage />} />
+                  <Route path="/mod" element={<ModeratorDashboard />} />
                   <Route path="/apartment" element={<ApartmentDetails />} />
                   <Route path="/renter" element={<RenterDetails />} />
                   <Route path="/transaction" element={<TransactionDetails />} />

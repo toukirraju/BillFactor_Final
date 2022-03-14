@@ -1,14 +1,21 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import UnassignApartment from "../../pages/moderator/AssignRenterToApartment/UnassignApartment";
 import { removeLevels } from "../../redux/slices/apartmentSlice";
 import { removeRenter } from "../../redux/slices/renterSlice";
-import { createBill } from "../../redux/slices/transactionSlice";
+import {
+  createBill,
+  createTempBill,
+  removeBill,
+} from "../../redux/slices/transactionSlice";
+import { toast } from "react-toastify";
 
 const ConfirmationPopUp = (props) => {
   const [unassignApartment, setUnassignApartment] = React.useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleConfirm = () => {
     if (props.popUpType === "Remove_Apartment") {
@@ -17,8 +24,22 @@ const ConfirmationPopUp = (props) => {
     } else if (props.popUpType === "Remove_Renter") {
       dispatch(removeRenter(props.data));
       props.onHide(false);
+    } else if (props.popUpType === "Remove_Bill") {
+      dispatch(removeBill(props.data));
+      props.onHide(false);
     } else if (props.popUpType === "Create_Bill") {
-      dispatch(createBill(props.data));
+      dispatch(createBill(props.data))
+        .unwrap()
+        .then(() => {
+          toast.success("Payment complete!");
+          navigate("/transaction");
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
+      props.onHide(false);
+    } else if (props.popUpType === "Create_Temp_Bill") {
+      dispatch(createTempBill(props.data));
       props.onHide(false);
     }
   };
@@ -26,7 +47,6 @@ const ConfirmationPopUp = (props) => {
     setUnassignApartment(true);
     props.onHide(false);
   };
-  // console.log(props.data);
   return (
     <>
       <Modal
@@ -34,11 +54,11 @@ const ConfirmationPopUp = (props) => {
         size="sm"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        // className="bg-dark bg-gradient"
       >
         {props.data ? (
           <>
             {props.popUpType === "Remove_Apartment" ||
+            props.popUpType === "Remove_Bill" ||
             props.popUpType === "Remove_Renter" ? (
               <>
                 <Modal.Header closeButton>
@@ -63,6 +83,29 @@ const ConfirmationPopUp = (props) => {
                 </Modal.Footer>
               </>
             ) : props.popUpType === "Create_Bill" ? (
+              <>
+                <Modal.Header closeButton>
+                  <Modal.Title> Are you sure? </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="alert alert-warning" role="alert">
+                    Do you really want to {props.popUpType}? After{" "}
+                    {props.popUpType}, it cannot be undone.
+                  </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="secondary"
+                    onClick={() => props.onHide(false)}
+                  >
+                    Close
+                  </Button>
+                  <Button variant="warning" onClick={() => handleConfirm()}>
+                    Confirm
+                  </Button>
+                </Modal.Footer>
+              </>
+            ) : props.popUpType === "Create_Temp_Bill" ? (
               <>
                 <Modal.Header closeButton>
                   <Modal.Title> Are you sure? </Modal.Title>

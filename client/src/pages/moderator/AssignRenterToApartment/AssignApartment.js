@@ -50,11 +50,11 @@ function AssignApartment(props) {
         toast.error("Something want wrong");
       });
   };
-  useEffect(() => {
-    dispatch(allApartments());
-    dispatch(allrenters());
-    dispatch(clearMessage());
-  }, [isAdded, dispatch]);
+  // useEffect(() => {
+  //   dispatch(allApartments());
+  //   dispatch(allrenters());
+  //   dispatch(clearMessage());
+  // }, [isAdded, dispatch]);
 
   return (
     <div>

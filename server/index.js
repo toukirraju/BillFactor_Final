@@ -19,9 +19,10 @@ app.use(passport.initialize());
 require("./Passport")(passport);
 
 app.use("/api", require("./routers/login&regRoutes"));
-app.use("/api", require("./routers/manager.routes"));
+// app.use("/api", require("./routers/manager.routes"));
 app.use("/api", require("./routers/morderator.routes"));
 app.use("/api/common", require("./routers/common.routes"));
+app.use("/api/public", require("./routers/public.routes"));
 
 app.get("/", (req, res) => {
   res.json({

@@ -27,10 +27,33 @@ const getMonthlyBill = ({ month, year }) => {
     });
 };
 
+const removeBill = (_id) => {
+  return axios.delete(API_URL + `bill/${_id}`, {
+    headers: authHeader(),
+  });
+};
+
 //////////////////// TempBIll ///////////////////////
+
+const createTempBill = (tempBill) => {
+  return axios
+    .post(API_URL + "bill/tempbill/create", tempBill, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const getTempBill = (renterId) => {
   return axios
     .get(API_URL + `bill/tempbill/${renterId}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const getAllTempBills = () => {
+  return axios
+    .get(API_URL + `bill/tempbill`, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -41,8 +64,11 @@ const mod_manCommonService = {
   createBill,
   getAllBill,
   getMonthlyBill,
+  removeBill,
   //////////////////// TempBIll ///////////////////////
   getTempBill,
+  getAllTempBills,
+  createTempBill,
 };
 
 export default mod_manCommonService;

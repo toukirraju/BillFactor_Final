@@ -12,7 +12,6 @@ import ConfirmationPopUp from "../../../components/confirmationPopUp/Confirmatio
 
 const RenterDetails = () => {
   const dispatch = useDispatch();
-
   const { data, isAdded } = useSelector((state) => state.renterCreator);
   const { message } = useSelector((state) => state.message);
 
@@ -75,6 +74,7 @@ const RenterDetails = () => {
           <>
             <div className="table-responsive container cardBody">
               <h1 className="text-center">All Renters</h1>
+
               <table class="table align-middle table-hover">
                 <thead>
                   <tr>
