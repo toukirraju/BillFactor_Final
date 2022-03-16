@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "../moderatorPage.css";
+import "./transaction.css";
 import { useDispatch, useSelector } from "react-redux";
 import CircularNavBarTop from "../circularNavBar/CircularNavBarTop";
 import CircularNavBarBottom from "../circularNavBar/CircularNavBarBottom";
@@ -102,8 +103,8 @@ const TransactionDetails = () => {
             </div>
           </div>
         )}
-
-        <div className="input-container">
+        {/* Date Picker */}
+        <div className="datepicker-container ">
           <div>
             <DatePicker
               selected={startDate}
@@ -124,9 +125,9 @@ const TransactionDetails = () => {
 
         {Object.keys(transactions).length !== 0 ? (
           <>
-            <div className="row  mx-5">
-              <div className="col-md-7  cardBody">
-                <h1 className="text-center">All Transactions</h1>
+            <div className="trans-tabels">
+              <div className="bill-table table-Wrapper">
+                <h1 className="text-center text-white">All Transactions</h1>
                 <div
                   className="ag-theme-alpine"
                   style={{ height: 400, width: "100%" }}
@@ -138,12 +139,11 @@ const TransactionDetails = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-1"></div>
-              <div className="col-md-4 cardBody">
-                <h1 className="text-center">All Temp Bills</h1>
+              <div className="temp-table table-Wrapper">
+                <h1 className="text-center text-white">All Temp Bills</h1>
                 <div
                   className="ag-theme-alpine"
-                  style={{ height: 300, width: "100%" }}
+                  style={{ height: 400, width: "100%" }}
                 >
                   <AgGridReact
                     rowData={allTemp}
