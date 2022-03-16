@@ -1,19 +1,29 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const managerSchema = new Schema({
+const loginSchema = new Schema({
+  _id: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
   },
-  phone: {
+  password: {
     type: String,
     required: true,
   },
-  email: {
+  type: {
     type: String,
   },
-  messId: {
+  role: {
+    type: String,
+  },
+  homeId: {
+    type: String,
+  },
+  homeOwner: {
     type: String,
   },
   date: {
@@ -22,5 +32,5 @@ const managerSchema = new Schema({
   },
 });
 
-const ManagerModel = mongoose.model("ManagerModel", managerSchema);
-module.exports = ManagerModel;
+const Login = mongoose.model("Login", loginSchema);
+module.exports = Login;

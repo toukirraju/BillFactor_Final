@@ -7,6 +7,7 @@ import assignReducer from "./slices/assignRenterSlice";
 import transactionReducer from "./slices/transactionSlice";
 import publicReducer from "./slices/publicDataSlice";
 import dashboardReducer from "./slices/dashboardSlice";
+import roleReducer from "./slices/roleSlice";
 
 export default configureStore({
   reducer: {
@@ -19,5 +20,6 @@ export default configureStore({
     transaction: transactionReducer,
     publicData: publicReducer,
     dashboardData: dashboardReducer,
+    role: roleReducer,
   },
 });

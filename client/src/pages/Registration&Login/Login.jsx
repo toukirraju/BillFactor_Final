@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate, Route, Routes } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import { toast } from "react-toastify";
 import { login } from "../../redux/slices/auth";
 import { clearMessage } from "../../redux/slices/message";
 
@@ -35,8 +35,9 @@ const Login = (props) => {
     dispatch(login(formValue))
       .unwrap()
       .then(() => {
-        alert("login successfull");
-        history("/");
+        // alert("login successfull");
+        toast.success("Successfully login");
+        // history("/mod");
         // window.location.reload();
       })
       .catch(() => {
@@ -47,7 +48,7 @@ const Login = (props) => {
   if (isLoggedIn) {
     return (
       <Routes>
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/mod" />} />
       </Routes>
     );
   }

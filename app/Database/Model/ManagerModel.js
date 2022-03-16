@@ -1,27 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const loginSchema = new Schema({
-  _id: {
-    type: String,
-    required: true,
-  },
+const managerSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  password: {
+  phone: {
     type: String,
     required: true,
   },
-  type: {
+  email: {
     type: String,
   },
+  messId: {
+    type: String,
+  },
+
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Login = mongoose.model("Login", loginSchema);
-module.exports = Login;
+const ManagerModel = mongoose.model("ManagerModel", managerSchema);
+module.exports = ManagerModel;

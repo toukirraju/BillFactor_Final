@@ -21,11 +21,11 @@ const Registration = () => {
     password: "",
     confirmPassword: "",
     type: "",
+    role: "",
   };
 
   const handleRegister = (formValue, { resetForm }) => {
     setSuccessful(false);
-
     dispatch(register(formValue))
       .unwrap()
       .then(() => {
@@ -147,6 +147,20 @@ const Registration = () => {
                     className="alert alert-danger"
                   />
                 </div>
+                <div>
+                  <label className="me-2">
+                    <b>Sub Manager: </b>
+                  </label>
+                  <label className="me-2">
+                    <Field type="radio" name="role" value="sub_manager" />
+                    Yes
+                  </label>
+                  <label>
+                    <Field type="radio" name="role" value="" />
+                    No
+                  </label>
+                </div>
+
                 <input type="submit" className="btnRegister" value="Register" />
               </div>
             </div>

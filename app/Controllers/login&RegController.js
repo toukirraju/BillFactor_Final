@@ -10,8 +10,7 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   registration(req, res) {
-    let { name, phone, email, messId, password, confirmPassword, type } =
-      req.body;
+    let { name, phone, email, messId, password, role, type } = req.body;
 
     Login.findOne({ _id: phone })
       .then((user) => {
@@ -28,6 +27,7 @@ module.exports = {
             name,
             password: hash,
             type,
+            role,
           });
           user
             .save()
@@ -108,23 +108,49 @@ module.exports = {
             if (!result) {
               return resourceError(res, "Password dose not match");
             }
-            let token = jwt.sign(
-              {
+
+            if (user.role === "sub_manager") {
+              let token = jwt.sign(
+                {
+                  _id: user._id,
+                  name: user.name,
+                  type: user.type,
+                  role: user.role,
+                  homeId: user.homeId,
+                  homeOwner: user.homeOwner,
+                },
+                process.env.SECRET,
+                { expiresIn: "2h" }
+              );
+
+              res.status(200).json({
                 _id: user._id,
+                token: `Bearer ${token}`,
                 name: user.name,
                 type: user.type,
-              },
-              process.env.SECRET,
-              { expiresIn: "2h" }
-            );
+                role: user.role,
+                homeId: user.homeId,
+                homeOwner: user.homeOwner,
+              });
+            } else {
+              let token = jwt.sign(
+                {
+                  _id: user._id,
+                  name: user.name,
+                  type: user.type,
+                },
+                process.env.SECRET,
+                { expiresIn: "2h" }
+              );
 
-            res.status(200).json({
-              message: "Login Successfull",
-              _id: user._id,
-              token: `Bearer ${token}`,
-              name: user.name,
-              type: user.type,
-            });
+              res.status(200).json({
+                message: "Login Successfull",
+                _id: user._id,
+                token: `Bearer ${token}`,
+                name: user.name,
+                type: user.type,
+              });
+            }
           });
         } else {
           res.status(404).json({

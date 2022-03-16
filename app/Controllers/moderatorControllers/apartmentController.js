@@ -106,9 +106,12 @@ module.exports = {
   },
 
   allApartment(req, res) {
-    let { _id } = req.user;
-
-    ApartmentModel.findOne({ adminId: _id })
+    // let { _id } = req.user;
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    ApartmentModel.findOne({
+      // adminId: _id
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((apartments) => {
         if (apartments != null) {
           if (apartments.floors.length != 0) {

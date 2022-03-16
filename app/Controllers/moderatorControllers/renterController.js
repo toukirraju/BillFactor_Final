@@ -72,8 +72,12 @@ module.exports = {
   },
 
   allRenters(req, res) {
-    let { _id } = req.user;
-    RenterModel.findOne({ adminId: _id })
+    // let { _id } = req.user;
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    RenterModel.findOne({
+      // adminId: _id
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((result) => {
         if (result != null) {
           if (result.renters.length != 0) {
@@ -87,43 +91,6 @@ module.exports = {
       })
       .catch((error) => serverError(res, error));
   },
-
-  // addApartment(req, res) {
-  //   // console.log(req.body);
-  //   RenterModel.findOne({ adminId: req.user._id })
-  //     .then((result) => {
-  //       // console.log(result);
-  //       if (result) {
-  //         // let apartmentsArray;
-  //         // let n;
-  //         // const apartments = result.floors.map((item, idx) => {
-  //         //   return (n = idx), (apartmentsArray = item);
-  //         // });
-  //         let objData = new Object({
-  //           level: parseInt(req.body.indexNo),
-  //           apartNo: `A${parseInt(req.body.indexNo)}`,
-  //           roomNo: `R${parseInt(req.body.indexNo)}`,
-  //           rent: 0,
-  //           gasbill: 0,
-  //           waterbill: 0,
-  //           c_service: 0,
-  //           status: "available",
-  //           renterId: "",
-  //           renterName: "",
-  //         });
-
-  //         // apartments[req.body.indexNo].push(objData);
-  //         result.floors.push(objData);
-  //         result.save();
-  //         res.status(201).json({
-  //           message: "Added Successfully",
-  //         });
-  //       } else {
-  //         return resourceError(res, "somthing went wrong");
-  //       }
-  //     })
-  //     .catch((error) => serverError(res, error));
-  // },
 
   updateRenter(req, res) {
     RenterModel.findOne({ adminId: req.user._id })

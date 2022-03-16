@@ -7,6 +7,7 @@ import AssignApartment from "../AssignRenterToApartment/AssignApartment";
 import UnassignApartment from "../AssignRenterToApartment/UnassignApartment";
 import SelectPayableRenter from "../Transactions/SelectPayableRenter";
 import SelectRenter from "../SelectRenter";
+import SearchSub_man from "../search/SearchSub_man";
 
 const CircularNavBarTop = () => {
   const [modalShow, setModalShow] = React.useState(false);
@@ -19,6 +20,8 @@ const CircularNavBarTop = () => {
   const [updateModalShow, setUpdateModalShow] = React.useState(false);
 
   const [findRenter, setFindRenter] = React.useState(false);
+
+  const [searchSub_Man, setSearchSub_Man] = React.useState(false);
 
   // const createModal = () => {
   //   setModalShow(true);
@@ -70,6 +73,11 @@ const CircularNavBarTop = () => {
         />
 
         <SelectRenter show={findRenter} onHide={() => setFindRenter(false)} />
+
+        <SearchSub_man
+          show={searchSub_Man}
+          onHide={() => setSearchSub_Man(false)}
+        />
       </div>
       <section className="menu menu--circle">
         <input type="checkbox" id="menu__active" />
@@ -148,7 +156,10 @@ const CircularNavBarTop = () => {
                 <div className="placeholder">
                   <div className="upside">
                     <a href={() => false} className="button">
-                      <i className="fas fa-minus-circle"></i>
+                      <i
+                        className="fas fa-search"
+                        onClick={() => setSearchSub_Man(true)}
+                      ></i>
                     </a>
                   </div>
                 </div>

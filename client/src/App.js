@@ -24,7 +24,6 @@ import "react-circular-progressbar/dist/styles.css";
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
-  // console.log(user.type);
   const logOut = () => {
     dispatch(logout());
   };
@@ -38,14 +37,40 @@ function App() {
             <>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<RegAndLogin />} />
-              <Route path="/profile" element={<Profile />} />
+
               {user.type === "manager" ? (
-                <>
-                  <Route path="/mod" element={<ModeratorDashboard />} />
-                  <Route path="/apartment" element={<ApartmentDetails />} />
-                  <Route path="/renter" element={<RenterDetails />} />
-                  <Route path="/transaction" element={<TransactionDetails />} />
-                </>
+                user.role === undefined || user.role === "" ? (
+                  <>
+                    <Route path="/mod" element={<ModeratorDashboard />} />
+                    <Route path="/apartment" element={<ApartmentDetails />} />
+                    <Route path="/renter" element={<RenterDetails />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route
+                      path="/transaction"
+                      element={<TransactionDetails />}
+                    />
+                    <Route
+                      path="*"
+                      element={
+                        <main style={{ padding: "1rem" }}>
+                          <p>There's nothing here!</p>
+                        </main>
+                      }
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Route path="/mod" element={<ModeratorDashboard />} />
+                    <Route
+                      path="*"
+                      element={
+                        <main style={{ padding: "1rem" }}>
+                          <p>There's nothing here!</p>
+                        </main>
+                      }
+                    />
+                  </>
+                )
               ) : (
                 <></>
               )}

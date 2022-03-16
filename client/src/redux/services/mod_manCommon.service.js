@@ -27,6 +27,14 @@ const getMonthlyBill = ({ month, year }) => {
     });
 };
 
+const getPayableRenters = ({ month, year }) => {
+  return axios
+    .get(API_URL + `payable/${month}/${year}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const removeBill = (_id) => {
   return axios.delete(API_URL + `bill/${_id}`, {
     headers: authHeader(),
@@ -64,6 +72,7 @@ const mod_manCommonService = {
   createBill,
   getAllBill,
   getMonthlyBill,
+  getPayableRenters,
   removeBill,
   //////////////////// TempBIll ///////////////////////
   getTempBill,
