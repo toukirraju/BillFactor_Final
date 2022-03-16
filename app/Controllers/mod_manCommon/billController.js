@@ -340,12 +340,12 @@ module.exports = {
     let { _id, role, homeId, homeOwner } = req.user;
 
     BillModel.findOne({
-      // adminId: "1111",
+      // adminId: "1400181593",
       adminId: role === "" || role === undefined ? _id : homeId,
     })
       .then((result) => {
-        if (result != null) {
-          if (result.bills.length != 0) {
+        if (result !== null) {
+          if (result.bills.length !== 0) {
             let perMonthBills = [];
             result.bills.filter((i) => {
               if (
@@ -359,7 +359,7 @@ module.exports = {
 
             RenterModel.findOne({
               // adminId: _id
-              // adminId: "1111",
+              // adminId: "1400181593",
               adminId: role === "" || role === undefined ? _id : homeId,
             })
               .then((result) => {
@@ -389,10 +389,43 @@ module.exports = {
               .catch((error) => serverError(res, error));
             // res.status(200).json(perMonthBills);
           } else {
-            return resourceError(res, "No Bill Found");
+            RenterModel.findOne({
+              // adminId: "1400181593",
+              adminId: role === "" || role === undefined ? _id : homeId,
+            })
+              .then((result) => {
+                if (result != null) {
+                  if (result.renters.length != 0) {
+                    res.status(200).json(result.renters);
+                  } else {
+                    return resourceError(res, "Please create renter");
+                  }
+                } else {
+                  return resourceError(res, "No renter found");
+                }
+              })
+              .catch((error) => serverError(res, error));
+            // return resourceError(res, "No Bill Found");
           }
         } else {
-          return resourceError(res, "Something went wrong!");
+          RenterModel.findOne({
+            // adminId: "1400181593",
+            adminId: role === "" || role === undefined ? _id : homeId,
+          })
+            .then((result) => {
+              if (result != null) {
+                if (result.renters.length != 0) {
+                  res.status(200).json(result.renters);
+                } else {
+                  return resourceError(res, "Please create renter");
+                }
+              } else {
+                return resourceError(res, "No renter found");
+              }
+            })
+            .catch((error) => serverError(res, error));
+          // res.status(200).json(result);
+          // return resourceError(res, "Something went wrong!");
         }
       })
       .catch((error) => serverError(res, error));
