@@ -9,6 +9,7 @@ const {
   createTemp,
   allTempBills,
   removeBill,
+  payableRenters,
 } = require("../Controllers/mod_manCommon/billController");
 const {
   apartmentWidget,
@@ -32,6 +33,8 @@ router.get("/bill", authenticate, allTransactions); ////
 router.get("/bill/:month/:year", authenticate, getMonthlyBill); ////
 
 router.delete("/bill/:_id", authenticate, removeBill); ////
+
+router.get("/payable/:month/:year", authenticate, payableRenters);
 
 ////////////////// Dashboard ROUTE ////////////////////
 

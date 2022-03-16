@@ -7,7 +7,11 @@ const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   renterDetails(req, res) {
-    RenterModel.findOne({ adminId: req.user._id })
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    RenterModel.findOne({
+      // adminId: _id
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((renter) => {
         let renterData = {};
         if (renter) {
@@ -19,7 +23,10 @@ module.exports = {
         } else {
           return resourceError(res, "Somthing went wrong");
         }
-        ApartmentModel.findOne({ adminId: req.user._id })
+        ApartmentModel.findOne({
+          // adminId: _id
+          adminId: role === "" || role === undefined ? _id : homeId,
+        })
           .then((doc) => {
             let apartmentData = {};
             if (doc) {
@@ -36,7 +43,10 @@ module.exports = {
             }
             // res.send(Data);
 
-            BillModel.findOne({ adminId: req.user._id })
+            BillModel.findOne({
+              // adminId: _id
+              adminId: role === "" || role === undefined ? _id : homeId,
+            })
               .then((result) => {
                 if (result != null) {
                   if (result.bills.length != 0) {
@@ -54,7 +64,10 @@ module.exports = {
                       tempDue: 0,
                     });
 
-                    TempBillModel.findOne({ adminId: req.user._id })
+                    TempBillModel.findOne({
+                      // adminId: _id
+                      adminId: role === "" || role === undefined ? _id : homeId,
+                    })
                       .then((temp) => {
                         if (temp != null) {
                           if (temp.tempBills.length != 0) {

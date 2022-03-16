@@ -98,6 +98,40 @@ const removeRenter = (renterId) => {
   });
 };
 
+//////////////////////////////////////////     Role Assign     //////////////////////////////////////////
+
+const getSub_Man = (srcId) => {
+  return axios
+    .get(API_URL + srcId, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const getRoledMan = () => {
+  return axios
+    .get(API_URL + `getRoledMan`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const updateRole = ({ _id, assignData }) => {
+  return axios
+    .put(API_URL + _id, assignData, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const removeRole = (_id) => {
+  return axios.get(API_URL + `role/${_id}`, {
+    headers: authHeader(),
+  });
+};
+
 const moderatorService = {
   ////////Apartement////////
   createFloors,
@@ -113,6 +147,11 @@ const moderatorService = {
   ////////Assign/////////
   assignRenter,
   unAssignRenter,
+  ////////Role/////////
+  getSub_Man,
+  getRoledMan,
+  updateRole,
+  removeRole,
 };
 
 export default moderatorService;

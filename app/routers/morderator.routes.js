@@ -20,6 +20,12 @@ const {
   assignRenter,
   removeAssignedRenter,
 } = require("../Controllers/moderatorControllers/assignRenterController");
+const {
+  searchManager,
+  assignRole,
+  removeRole,
+  getRoledUser,
+} = require("../Controllers/moderatorControllers/roleController");
 
 ////////////////// APARTMENTS ROUTE ////////////////////
 
@@ -48,5 +54,15 @@ router.delete("/renter/:renterId", authenticate, removeRenter); ////
 router.post("/assign", authenticate, assignRenter);
 
 router.post("/removeAssigned", authenticate, removeAssignedRenter);
+
+//////////////////  ROLE ROUTE ////////////////////
+
+router.get(`/getRoledMan`, authenticate, getRoledUser);
+
+router.get(`/:srcId`, authenticate, searchManager);
+
+router.put(`/:srcId`, authenticate, assignRole);
+
+router.get(`/role/:srcId`, authenticate, removeRole);
 
 module.exports = router;

@@ -7,7 +7,11 @@ const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   apartmentWidget(req, res) {
-    ApartmentModel.findOne({ adminId: req.user._id })
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    ApartmentModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((doc) => {
         if (doc) {
           const allApartments = doc.floors.map((item) => item.apartNo);
@@ -48,7 +52,11 @@ module.exports = {
   },
 
   renterWidget(req, res) {
-    RenterModel.findOne({ adminId: req.user._id })
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    RenterModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((allrenters) => {
         if (allrenters) {
           const activeRenter = [];
@@ -75,7 +83,11 @@ module.exports = {
   },
 
   billWidget(req, res) {
-    ApartmentModel.findOne({ adminId: req.user._id })
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    ApartmentModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((doc) => {
         if (doc) {
           const unavailable = [];
@@ -91,7 +103,10 @@ module.exports = {
             totalPayable += unavailable[i].totalRent;
           }
 
-          BillModel.findOne({ adminId: req.user._id })
+          BillModel.findOne({
+            // adminId: _id,
+            adminId: role === "" || role === undefined ? _id : homeId,
+          })
             .then((result) => {
               if (result !== null) {
                 if (result.bills.length !== 0) {
@@ -113,7 +128,10 @@ module.exports = {
                   }
                   // res.status(200).json(totalPaidBill);
 
-                  TempBillModel.findOne({ adminId: req.user._id })
+                  TempBillModel.findOne({
+                    // adminId: _id,
+                    adminId: role === "" || role === undefined ? _id : homeId,
+                  })
                     .then((temp) => {
                       if (temp !== null) {
                         if (temp.tempBills.length !== 0) {
@@ -203,8 +221,11 @@ module.exports = {
 
   yearlyBarChart(req, res) {
     // let { _id } = req.user;
-
-    BillModel.findOne({ adminId: req.user._id })
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    BillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((result) => {
         if (result !== null) {
           if (result.bills.length !== 0) {

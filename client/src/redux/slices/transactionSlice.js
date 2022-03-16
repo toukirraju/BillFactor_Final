@@ -60,6 +60,29 @@ export const getMonthlyTransactions = createAsyncThunk(
   }
 );
 
+export const getPayableRenters = createAsyncThunk(
+  "common/getPayableRenters",
+  async ({ month, year }, thunkAPI) => {
+    try {
+      const data = await Mod_manCommonService.getPayableRenters({
+        month,
+        year,
+      });
+
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 export const removeBill = createAsyncThunk(
   "mod/removeBill",
   async (_id, thunkAPI) => {
@@ -144,6 +167,7 @@ const initialState = {
   temp: null,
   allTemp: [],
   transactions: [],
+  payableRenters: [],
 };
 
 const transactiionSlice = createSlice({
@@ -170,6 +194,20 @@ const transactiionSlice = createSlice({
     },
 
     [getMonthlyTransactions.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
+
+    [getPayableRenters.pending]: (state, action) => {
+      state.isPending = true;
+    },
+    [getPayableRenters.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+      state.payableRenters = action.payload;
+    },
+
+    [getPayableRenters.rejected]: (state, action) => {
       state.isSuccess = false;
       state.isPending = false;
     },

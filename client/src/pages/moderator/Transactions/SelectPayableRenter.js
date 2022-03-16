@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 
 import {
   getTempBill,
-  getMonthlyTransactions,
+  getPayableRenters,
 } from "../../../redux/slices/transactionSlice";
 
 import CreateTransactionModal from "./createTransaction/CreateTransactionModal";
@@ -14,9 +14,12 @@ import CreateTempBillModal from "./createTransaction/CreateTempBillModal";
 
 function SelectPayableRenter(props) {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.renterCreator);
   const { apartments } = useSelector((state) => state.moderator);
-  const { transactions, isPending } = useSelector((state) => state.transaction);
+  const { payableRenters, isPending } = useSelector(
+    (state) => state.transaction
+  );
 
   const [createTampModal, setCreateTampModal] = React.useState(false);
   const [createTransactionModal, setCreateTransactionModal] =
@@ -39,11 +42,11 @@ function SelectPayableRenter(props) {
   } = useForm({});
 
   const srcMonthlyBill = () => {
-    dispatch(getMonthlyTransactions({ month, year }))
+    dispatch(getPayableRenters({ month, year }))
+      .unwrap()
       .then(() => setShowSelectOpt(true))
       .catch(() => setShowSelectOpt(false));
   };
-
   const onChangeDatePicker = (date) => {
     setStartDate(date);
     setShowSelectOpt(false);
@@ -85,27 +88,6 @@ function SelectPayableRenter(props) {
     setRenterData(renter);
   };
 
-  const transactionCompletedUser =
-    Object.keys(transactions).length !== 0
-      ? transactions.map((item) => item.renterId)
-      : [];
-
-  const unPaidRenters = (transactionCompletedUser, data) => {
-    const unpaidUser = data ? data.renters.map((item) => item) : [];
-
-    for (var i = unpaidUser.length - 1; i >= 0; i--) {
-      for (var j = 0; j < transactionCompletedUser.length; j++) {
-        if (unpaidUser[i]._id === transactionCompletedUser[j]) {
-          unpaidUser.splice(i, 1);
-        }
-      }
-    }
-    return unpaidUser;
-  };
-
-  useEffect(() => {
-    dispatch(getMonthlyTransactions({ month, year }));
-  }, [dispatch]);
   return (
     <div>
       <CreateTransactionModal
@@ -183,18 +165,17 @@ function SelectPayableRenter(props) {
                           <option selected value="">
                             Select Renter
                           </option>
-
-                          {unPaidRenters(transactionCompletedUser, data).map(
-                            (option, index) =>
-                              option.apartNo !== "" && option.roomNo !== "" ? (
-                                <option
-                                  key={index}
-                                  value={JSON.stringify(option)}
-                                >
-                                  &#128100; {option.renterName} &#x27AA;
-                                  &#x27AA; &#128222; {option.phone}
-                                </option>
-                              ) : null
+                          {/* unPaidRenters(transactionCompletedUser, data) */}
+                          {payableRenters.map((option, index) =>
+                            option.apartNo !== "" && option.roomNo !== "" ? (
+                              <option
+                                key={index}
+                                value={JSON.stringify(option)}
+                              >
+                                &#128100; {option.renterName} &#x27AA; &#x27AA;
+                                &#128222; {option.phone}
+                              </option>
+                            ) : null
                           )}
                         </select>
                         <label for="floatingSelect">Payable Renters</label>
@@ -212,21 +193,34 @@ function SelectPayableRenter(props) {
                   )}
                 </form>
 
-                <div className="d-flex justify-content-around">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={handleSubmit(openTemporaryBill)}
-                  >
-                    Temporary Bill
-                  </button>
+                {user.role === undefined || user.role === "" ? (
+                  <>
+                    <div className="d-flex justify-content-around">
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={handleSubmit(openTemporaryBill)}
+                      >
+                        Temporary Bill
+                      </button>
 
-                  <button
-                    className="btn btn-outline-warning"
-                    onClick={handleSubmit(onSubmitBillPay)}
-                  >
-                    BillPay
-                  </button>
-                </div>
+                      <button
+                        className="btn btn-outline-warning"
+                        onClick={handleSubmit(onSubmitBillPay)}
+                      >
+                        BillPay
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <button
+                      className="btn btn-outline-warning"
+                      onClick={handleSubmit(onSubmitBillPay)}
+                    >
+                      BillPay
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

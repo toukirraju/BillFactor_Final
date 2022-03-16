@@ -1,12 +1,13 @@
 const BillModel = require("../../Database/Model/mod_manCommon/BillModel");
 const TempBillModel = require("../../Database/Model/mod_manCommon/TempBillModel");
-
+const RenterModel = require("../../Database/Model/moderatorModels/renterModel");
+var _ = require("lodash");
 const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   createBill(req, res) {
-    const { name, _id } = req.user;
-
+    const { name, _id, role, homeId, homeOwner } = req.user;
+    // console.log();
     let objData = new Object({
       renterId: req.body.renterId,
       renterName: req.body.renterName,
@@ -20,8 +21,10 @@ module.exports = {
     });
 
     let billData = new BillModel({
-      name,
-      adminId: _id,
+      // name,
+      // adminId: _id,
+      name: role === "" || role === undefined ? name : homeOwner,
+      adminId: role === "" || role === undefined ? _id : homeId,
       bills: objData,
     });
 
@@ -34,12 +37,17 @@ module.exports = {
     });
 
     let tempData = new TempBillModel({
-      name,
-      adminId: _id,
+      // name,
+      // adminId: _id,
+      name: role === "" || role === undefined ? name : homeOwner,
+      adminId: role === "" || role === undefined ? _id : homeId,
       tempBills: tempObj,
     });
 
-    BillModel.findOne({ adminId: _id })
+    BillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((payment) => {
         if (payment == null) {
           billData
@@ -78,7 +86,11 @@ module.exports = {
         serverError(res, error);
       });
 
-    TempBillModel.findOne({ adminId: _id })
+    TempBillModel.findOne({
+      // adminId: _id,
+
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((temp) => {
         if (temp == null) {
           tempData.save();
@@ -128,9 +140,12 @@ module.exports = {
   },
 
   allTransactions(req, res) {
-    let { _id } = req.user;
+    let { _id, role, homeId, homeOwner } = req.user;
 
-    BillModel.findOne({ adminId: _id })
+    BillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((result) => {
         if (result != null) {
           if (result.bills.length != 0) {
@@ -146,9 +161,12 @@ module.exports = {
   },
 
   getMonthlyBill(req, res) {
-    let { _id } = req.user;
+    let { _id, role, homeId, homeOwner } = req.user;
 
-    BillModel.findOne({ adminId: _id })
+    BillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((result) => {
         if (result != null) {
           if (result.bills.length != 0) {
@@ -175,7 +193,7 @@ module.exports = {
   },
 
   getTempBill(req, res) {
-    let { _id } = req.user;
+    let { _id, role, homeId, homeOwner } = req.user;
 
     let tempObj = new Object({
       e_bill: 0,
@@ -183,7 +201,10 @@ module.exports = {
       tempDue: 0,
     });
 
-    TempBillModel.findOne({ adminId: _id })
+    TempBillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((temp) => {
         if (temp != null) {
           if (temp.tempBills.length != 0) {
@@ -210,7 +231,7 @@ module.exports = {
   },
 
   createTemp(req, res) {
-    const { name, _id } = req.user;
+    const { name, _id, role, homeId, homeOwner } = req.user;
     let tempObj = new Object({
       renterId: req.body.renterId,
       renterName: req.body.renterName,
@@ -220,12 +241,17 @@ module.exports = {
     });
 
     let tempData = new TempBillModel({
-      name: name,
-      adminId: _id,
+      // name: name,
+      // adminId: _id,
+      name: role === "" || role === undefined ? name : homeOwner,
+      adminId: role === "" || role === undefined ? _id : homeId,
       tempBills: tempObj,
     });
 
-    TempBillModel.findOne({ adminId: _id })
+    TempBillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((temp) => {
         if (temp == null) {
           tempData
@@ -290,9 +316,12 @@ module.exports = {
   },
 
   allTempBills(req, res) {
-    let { _id } = req.user;
+    let { _id, role, homeId, homeOwner } = req.user;
 
-    TempBillModel.findOne({ adminId: _id })
+    TempBillModel.findOne({
+      // adminId: _id,
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
       .then((result) => {
         if (result != null) {
           if (result.tempBills.length != 0) {
@@ -302,6 +331,68 @@ module.exports = {
           }
         } else {
           return resourceError(res, "No TempBill found");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
+  payableRenters(req, res) {
+    let { _id, role, homeId, homeOwner } = req.user;
+
+    BillModel.findOne({
+      // adminId: "1111",
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
+      .then((result) => {
+        if (result != null) {
+          if (result.bills.length != 0) {
+            let perMonthBills = [];
+            result.bills.filter((i) => {
+              if (
+                new Date(i.date).getMonth() + 1 ===
+                  parseInt(req.params.month) &&
+                new Date(i.date).getFullYear() === parseInt(req.params.year)
+              ) {
+                return perMonthBills.push(i);
+              }
+            });
+
+            RenterModel.findOne({
+              // adminId: _id
+              // adminId: "1111",
+              adminId: role === "" || role === undefined ? _id : homeId,
+            })
+              .then((result) => {
+                if (result != null) {
+                  if (result.renters.length != 0) {
+                    var totalRenters = result.renters;
+
+                    for (var i = perMonthBills.length - 1; i >= 0; i--) {
+                      for (var j = 0; j < totalRenters.length; j++) {
+                        if (
+                          perMonthBills[i].renterId ===
+                          totalRenters[j]._id.toString()
+                        ) {
+                          totalRenters.splice(j, 1);
+                        }
+                      }
+                    }
+
+                    res.status(200).json(totalRenters);
+                  } else {
+                    return resourceError(res, "Please create renter");
+                  }
+                } else {
+                  return resourceError(res, "Something went wrong!");
+                }
+              })
+              .catch((error) => serverError(res, error));
+            // res.status(200).json(perMonthBills);
+          } else {
+            return resourceError(res, "No Bill Found");
+          }
+        } else {
+          return resourceError(res, "Something went wrong!");
         }
       })
       .catch((error) => serverError(res, error));

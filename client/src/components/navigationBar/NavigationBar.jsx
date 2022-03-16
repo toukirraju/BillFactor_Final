@@ -55,30 +55,17 @@ const NavigationBar = () => {
                   {/* </Link> */}
                 </Nav.Link>
                 {showManagerBoard && (
-                  <Nav.Link
-                    eventKey="2"
-                    as={Link}
-                    to="/mod"
-                    className="navLink"
-                  >
-                    {/* <Link > */}
-                    Dashboard
-                    {/* </Link> */}
-                  </Nav.Link>
-                )}
-                {/* {showAdminBoard && (
-                  <Nav.Link
-                    eventKey="3"
-                    as={Link}
-                    to="/admin"
-                    className="navLink"
-                  >
-                    Admin Board
-                  </Nav.Link>
-                )} */}
-
-                {currentUser ? (
-                  <div className="navbar-nav ml-auto">
+                  <>
+                    <Nav.Link
+                      eventKey="2"
+                      as={Link}
+                      to="/mod"
+                      className="navLink"
+                    >
+                      {/* <Link > */}
+                      Dashboard
+                      {/* </Link> */}
+                    </Nav.Link>
                     <Nav.Link
                       eventKey="5"
                       as={Link}
@@ -89,7 +76,11 @@ const NavigationBar = () => {
                       {currentUser.name}
                       {/* </Link> */}
                     </Nav.Link>
+                  </>
+                )}
 
+                {currentUser ? (
+                  <div className="navbar-nav ml-auto">
                     <Nav.Link
                       eventKey="6"
                       as={Link}

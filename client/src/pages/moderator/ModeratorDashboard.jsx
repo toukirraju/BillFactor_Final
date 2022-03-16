@@ -23,7 +23,7 @@ import CircularProgress from "../../components/dashboard/Charts/CircularProgress
 
 const ModeratorDashboard = () => {
   const dispatch = useDispatch();
-
+  const { user } = useSelector((state) => state.auth);
   const { isAdded, apartments } = useSelector((state) => state.moderator);
   const { data: renterData } = useSelector((state) => state.renterCreator);
   const { transactions } = useSelector((state) => state.transaction);
@@ -95,11 +95,15 @@ const ModeratorDashboard = () => {
     dispatch(getRenterWidget());
     dispatch(getBillWidget());
   }, [isAdded, dispatch]);
-
   return (
     <>
       <div className="moderatorWraper">
-        <CircularNavBarTop />
+        {user.role === undefined || user.role === "" ? (
+          <>
+            <CircularNavBarTop />
+            <CircularNavBarBottom />
+          </>
+        ) : null}
 
         {/* select Renter Modal  */}
         <div className="Select_Section">
@@ -305,7 +309,6 @@ const ModeratorDashboard = () => {
             </div>
           </div>
         )} */}
-        <CircularNavBarBottom />
       </div>
     </>
   );

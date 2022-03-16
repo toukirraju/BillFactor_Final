@@ -1,14 +1,14 @@
 {
-  "name": "mess-factor",
+  "name": "billfactor_final",
   "version": "1.0.0",
-  "description": "mess management app",
-  "main": "index.js",
+  "description": "home management app",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm start --prefix ../client/",
+    "client": "npm start --prefix client/",
     "dev": "concurrently \"npm run server\" \"npm run client\" ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "toukir",
   "license": "ISC",

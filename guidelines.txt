@@ -80,7 +80,7 @@ install dependencies
 
 
 
-================git ===================
+=============================git =============================
 or create a new repository on the command line
 echo "# ghgh" >> README.md
 git init
@@ -91,10 +91,10 @@ git remote add origin https://github.com/toukirraju/BillFactor_Final.git
 git push -u origin main
 
 
-…or push an existing repository from the command line
+======================<<<…or push an existing repository from the command line>>>=================
 git remote add origin https://github.com/toukirraju/ghgh.git
 
-<<<change remote origin url>>>
+======================<<<change remote origin url>>>=================
 git remote set-url origin https://github.com/toukirraju/BillFactor_Final.git
 <<<change remote origin url>>
 git branch -M main
