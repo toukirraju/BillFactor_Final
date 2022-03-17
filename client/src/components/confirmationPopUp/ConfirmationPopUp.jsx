@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,12 +11,12 @@ import {
   removeBill,
 } from "../../redux/slices/transactionSlice";
 import { toast } from "react-toastify";
+import { setReload } from "../../redux/slices/dashboardSlice";
 
 const ConfirmationPopUp = (props) => {
   const [unassignApartment, setUnassignApartment] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleConfirm = () => {
     if (props.popUpType === "Remove_Apartment") {
       dispatch(removeLevels(props.data));
@@ -26,13 +26,15 @@ const ConfirmationPopUp = (props) => {
       props.onHide(false);
     } else if (props.popUpType === "Remove_Bill") {
       dispatch(removeBill(props.data));
+      dispatch(setReload());
       props.onHide(false);
     } else if (props.popUpType === "Create_Bill") {
       dispatch(createBill(props.data))
         .unwrap()
         .then(() => {
           toast.success("Payment complete!");
-          navigate("/transaction");
+          // navigate("/transaction");
+          dispatch(setReload());
         })
         .catch(() => {
           toast.error("Something went wrong!");
@@ -47,6 +49,7 @@ const ConfirmationPopUp = (props) => {
     setUnassignApartment(true);
     props.onHide(false);
   };
+
   return (
     <>
       <Modal

@@ -16,3 +16,15 @@ app {
 .input-container .react-datepicker-wrapper input {
   padding: 4px 12px;
 }
+
+.table-Wrapper {
+  padding-bottom: 35px;
+  margin: 10px 0;
+  /* From https://css.glass */
+  background: rgba(90, 216, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(90, 216, 255, 0.3);
+}

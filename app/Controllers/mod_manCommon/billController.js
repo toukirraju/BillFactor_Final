@@ -7,7 +7,6 @@ const { serverError, resourceError } = require("../../utils/error");
 module.exports = {
   createBill(req, res) {
     const { name, _id, role, homeId, homeOwner } = req.user;
-    // console.log();
     let objData = new Object({
       renterId: req.body.renterId,
       renterName: req.body.renterName,
@@ -18,6 +17,7 @@ module.exports = {
       payableAmount: req.body.payableAmount,
       paidAmount: req.body.paidAmount,
       due: req.body.due,
+      date: req.body.date,
     });
 
     let billData = new BillModel({

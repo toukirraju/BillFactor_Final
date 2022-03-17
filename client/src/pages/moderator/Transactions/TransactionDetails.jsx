@@ -20,6 +20,7 @@ const TransactionDetails = () => {
     (state) => state.transaction
   );
   const { message } = useSelector((state) => state.message);
+  const { isReload } = useSelector((state) => state.dashboardData);
 
   const [removeId, setRemoveId] = React.useState(false);
   const [confirmationPopUp, setConfirmationPopUp] = React.useState(false);
@@ -30,7 +31,7 @@ const TransactionDetails = () => {
   useEffect(() => {
     dispatch(getMonthlyTransactions({ month, year }));
     dispatch(getAllTempBill());
-  }, [isAdded, dispatch]);
+  }, [isAdded, isReload, dispatch]);
 
   const columns = [
     { headerName: "Name", field: "renterName" },
