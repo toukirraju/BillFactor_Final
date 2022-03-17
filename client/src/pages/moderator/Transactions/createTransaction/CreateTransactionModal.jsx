@@ -164,7 +164,9 @@ const CreateTransactionModal = (props) => {
 
           <div className="d-flex text-white flex-wrap justify-content-around bg-dark rounded bg-gradient p-1 ">
             <p className="mt-2">
-              <b>Payable Amount: {total}</b>
+              <b>
+                Payable Amount: <b className="payableAmount">{total}</b> /-
+              </b>
             </p>
             <p className="mt-2">
               <b>

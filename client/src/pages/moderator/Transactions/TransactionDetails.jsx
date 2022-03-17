@@ -34,10 +34,15 @@ const TransactionDetails = () => {
   }, [isAdded, isReload, dispatch]);
 
   const columns = [
-    { headerName: "Name", field: "renterName" },
-    { headerName: "Due", field: "tempDue" },
-    { headerName: "Electricity Bill", field: "e_bill" },
-    { headerName: "Others Bill", field: "o_bill" },
+    { headerName: "Name", field: "renterName", resizable: true, width: 150 },
+    { headerName: "Due", field: "tempDue", resizable: true, width: 100 },
+    {
+      headerName: "Electricity Bill",
+      field: "e_bill",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Others Bill", field: "o_bill", resizable: true, width: 100 },
   ];
 
   function dateFormatter(params) {
@@ -47,16 +52,41 @@ const TransactionDetails = () => {
     {
       headerName: "Renter Name",
       field: "renterName",
+      resizable: true,
+      width: 150,
     },
-    { headerName: "Electricity Bill", field: "e_bill" },
-    { headerName: "Others Bill", field: "o_bill" },
-    { headerName: "Payable Amount", field: "payableAmount" },
-    { headerName: "Paid Amount", field: "paidAmount" },
-    { headerName: "Due", field: "due" },
-    { headerName: "Date", field: "date", valueFormatter: dateFormatter },
+    {
+      headerName: "Electricity Bill",
+      field: "e_bill",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Others Bill", field: "o_bill", resizable: true, width: 100 },
+    {
+      headerName: "Payable Amount",
+      field: "payableAmount",
+      resizable: true,
+      width: 100,
+    },
+    {
+      headerName: "Paid Amount",
+      field: "paidAmount",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Due", field: "due", resizable: true, width: 100 },
+    {
+      headerName: "Date",
+      field: "date",
+      valueFormatter: dateFormatter,
+      resizable: true,
+      width: 150,
+    },
     {
       headerName: "Actions",
       field: "_id",
+      resizable: true,
+      width: 120,
       cellRendererFramework: (params) => (
         <div>
           <button

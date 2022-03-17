@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./app.css";
-import RegAndLogin from "./pages/Registration&Login/RegAndLogin";
 import NavigationBar from "./components/navigationBar/NavigationBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
@@ -20,6 +19,8 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 import "react-circular-progressbar/dist/styles.css";
+import Login from "./pages/Registration&Login/Login";
+import Registration from "./pages/Registration&Login/Registration";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ function App() {
           {isLoggedIn ? (
             <>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<RegAndLogin />} />
+              <Route path="/login" element={<Login />} />
 
               {user.type === "manager" ? (
                 user.role === undefined || user.role === "" ? (
@@ -78,7 +79,8 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<RegAndLogin />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
             </>
           )}
         </Routes>

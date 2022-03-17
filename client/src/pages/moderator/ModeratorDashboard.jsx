@@ -47,46 +47,119 @@ const ModeratorDashboard = () => {
   // useEffect(() => {
   //   dispatch(clearMessage());
   // }, [dispatch]);
-
+  function dateFormatter(params) {
+    return new Date(params.value).toDateString();
+  }
   const apartmentTabColumns = [
     {
       headerName: "Level",
       field: "level",
+      resizable: true,
+      width: 90,
     },
-    { headerName: "Apartment No", field: "apartNo" },
-    { headerName: "Room No", field: "roomNo" },
-    { headerName: "Status", field: "status" },
-    { headerName: "Renter Name", field: "renterName" },
-    { headerName: "Total Rent", field: "totalRent" },
-    { headerName: "Rent", field: "rent" },
-    { headerName: "Gas Bill", field: "gasbill" },
-    { headerName: "Fridge Bill", field: "f_bill" },
-    { headerName: "Water Bill", field: "waterbill" },
-    { headerName: "Service Charge", field: "c_service" },
+    {
+      headerName: "Apartment No",
+      field: "apartNo",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Room No", field: "roomNo", resizable: true, width: 100 },
+    { headerName: "Status", field: "status", resizable: true, width: 110 },
+    {
+      headerName: "Renter Name",
+      field: "renterName",
+      resizable: true,
+      width: 100,
+    },
+    {
+      headerName: "Total Rent",
+      field: "totalRent",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Rent", field: "rent", resizable: true, width: 100 },
+    { headerName: "Gas Bill", field: "gasbill", resizable: true, width: 100 },
+    { headerName: "Fridge Bill", field: "f_bill", resizable: true, width: 100 },
+    {
+      headerName: "Water Bill",
+      field: "waterbill",
+      resizable: true,
+      width: 100,
+    },
+    {
+      headerName: "Service Charge",
+      field: "c_service",
+      resizable: true,
+      width: 100,
+    },
   ];
 
   const renterTabColumns = [
-    { headerName: "Renter Name", field: "renterName" },
-    { headerName: "Phone", field: "phone" },
-    { headerName: "Apartment No", field: "apartNo" },
-    { headerName: "Room No", field: "roomNo" },
-    { headerName: "Address", field: "address" },
-    { headerName: "NId", field: "nId" },
-    { headerName: "Advance Rent", field: "advanceRent" },
-    { headerName: "Date", field: "date" },
+    {
+      headerName: "Renter Name",
+      field: "renterName",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Phone", field: "phone", resizable: true, width: 100 },
+    {
+      headerName: "Apartment No",
+      field: "apartNo",
+      resizable: true,
+      width: 100,
+    },
+    { headerName: "Room No", field: "roomNo", resizable: true, width: 100 },
+    { headerName: "Address", field: "address", resizable: true, width: 100 },
+    { headerName: "NId", field: "nId", resizable: true, width: 100 },
+    {
+      headerName: "Advance Rent",
+      field: "advanceRent",
+      resizable: true,
+      width: 100,
+    },
+    {
+      headerName: "Date",
+      field: "date",
+      valueFormatter: dateFormatter,
+      resizable: true,
+      width: 150,
+    },
   ];
 
   const transTabColumns = [
     {
       headerName: "Renter Name",
       field: "renterName",
+      resizable: true,
+      width: 150,
     },
-    { headerName: "Electricity Bill", field: "e_bill" },
-    { headerName: "Others Bill", field: "o_bill" },
-    { headerName: "Payable Amount", field: "payableAmount" },
-    { headerName: "Paid Amount", field: "paidAmount" },
-    { headerName: "Due", field: "due" },
-    { headerName: "Date", field: "date" },
+    {
+      headerName: "Electricity Bill",
+      field: "e_bill",
+      resizable: true,
+      width: 120,
+    },
+    { headerName: "Others Bill", field: "o_bill", resizable: true, width: 100 },
+    {
+      headerName: "Payable Amount",
+      field: "payableAmount",
+      resizable: true,
+      width: 150,
+    },
+    {
+      headerName: "Paid Amount",
+      field: "paidAmount",
+      resizable: true,
+      width: 150,
+    },
+    { headerName: "Due", field: "due", resizable: true, width: 100 },
+    {
+      headerName: "Date",
+      field: "date",
+      valueFormatter: dateFormatter,
+      resizable: true,
+      width: 150,
+    },
   ];
   useEffect(() => {
     dispatch(allApartments());

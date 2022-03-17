@@ -30,7 +30,7 @@ const BarChartCompo = () => {
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
-            dateFormat="yyyy"
+            dateFormat="MMM d, yyyy h:mm aa"
             showYearPicker
           />
         </div>

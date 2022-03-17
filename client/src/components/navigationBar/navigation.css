@@ -1,3 +1,7 @@
+.navbarrr {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
 .navGlass {
   /* From https://css.glass */
   background: rgba(255, 255, 255, 0.37);
