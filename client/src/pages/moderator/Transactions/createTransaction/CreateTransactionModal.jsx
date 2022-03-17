@@ -55,6 +55,7 @@ const CreateTransactionModal = (props) => {
     payableAmount: total,
     paidAmount: transAmount.paidAmount,
     due: newDue > 0 ? newDue : 0,
+    date: props.billingDate,
   });
 
   const changeHandler = (event) => {
@@ -78,6 +79,7 @@ const CreateTransactionModal = (props) => {
       payableAmount: total,
       paidAmount: transAmount.paidAmount,
       due: newDue > 0 ? newDue : 0,
+      date: props.billingDate,
     });
     setConfirmationPopUp(true);
     props.onHide(true);

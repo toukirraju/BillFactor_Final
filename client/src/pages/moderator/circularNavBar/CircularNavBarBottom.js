@@ -8,22 +8,22 @@ const CircularNavBarBottom = () => {
       <div id="menu">
         <input type="checkbox" id="menu-toggle" />
         <ul>
-          <li>
+          <li data-tooltip="Home">
             <Link to="/mod">
-              <i className="fas fa-home"></i>
+              <i className="fas fa-home" title="home"></i>
             </Link>
           </li>
-          <li>
+          <li data-tooltip="Apartment">
             <Link to="/apartment">
               <i className="fas fa-door-open"></i>
             </Link>
           </li>
-          <li>
+          <li data-tooltip="Renters">
             <Link to="/renter">
               <i className="fas fa-users"></i>
             </Link>
           </li>
-          <li>
+          <li data-tooltip="Transactions">
             <Link to="/transaction">
               <i className="fas fa-file-invoice-dollar"></i>
             </Link>

@@ -20,6 +20,7 @@ import {
   getBillWidget,
 } from "../../redux/slices/dashboardSlice";
 import CircularProgress from "../../components/dashboard/Charts/CircularProgress";
+import { getMonthlyTransactions } from "../../redux/slices/transactionSlice";
 
 const ModeratorDashboard = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const ModeratorDashboard = () => {
   const { data: renterData } = useSelector((state) => state.renterCreator);
   const { transactions } = useSelector((state) => state.transaction);
 
-  const { apartmentWidgets, renterWidgets, billWidgets, isPending } =
+  const { apartmentWidgets, renterWidgets, billWidgets, isPending, isReload } =
     useSelector((state) => state.dashboardData);
   // console.log(billWidgets);
   const [payableRenter, setPayableRenter] = React.useState(false);
@@ -37,7 +38,7 @@ const ModeratorDashboard = () => {
 
   const month = startDate.getMonth() + 1;
   const year = startDate.getFullYear();
-  // const { message } = useSelector((state) => state.message);
+  // const { message, isReload } = useSelector((state) => state.message);
 
   // useEffect(() => {
   //   dispatch(allApartments());
@@ -94,7 +95,8 @@ const ModeratorDashboard = () => {
     dispatch(getApartmentWidget());
     dispatch(getRenterWidget());
     dispatch(getBillWidget());
-  }, [isAdded, dispatch]);
+    dispatch(getMonthlyTransactions({ month, year }));
+  }, [isAdded, isReload, dispatch]);
   return (
     <>
       <div className="moderatorWraper">
@@ -138,37 +140,39 @@ const ModeratorDashboard = () => {
                 <BarChartCompo />
               </div>
             </div>
-            <div className="col-md-6 row">
-              <div className="cardBody d-flex">
-                {/* Date picker */}
-                <div className="input-container">
-                  <div>
-                    <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      dateFormat="MMMM/yyyy"
-                      showYearPicker
-                      withPortal
-                    />
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-outline-primary"
-                      // onClick={() => dispatch(getMonthlyTransactions({ month, year }))}
-                    >
-                      &#x1F50E;
-                    </button>
+            <div className="col-md-6 ">
+              <div className="row ">
+                <div className="cardBody d-flex">
+                  {/* Date picker */}
+                  <div className="input-container">
+                    <div>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        dateFormat="MMMM/yyyy"
+                        showYearPicker
+                        withPortal
+                      />
+                    </div>
+                    <div>
+                      <button
+                        className="btn btn-outline-primary"
+                        // onClick={() => dispatch(getMonthlyTransactions({ month, year }))}
+                      >
+                        &#x1F50E;
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-6">
-                <div className="cardBody">
-                  <PieChart />
+                <div className="col-md-6">
+                  <div className="cardBody">
+                    <PieChart />
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-6">
-                <div className="cardBody" style={{ height: "340px" }}>
-                  <CircularProgress />
+                <div className="col-md-6">
+                  <div className="cardBody" style={{ height: "340px" }}>
+                    <CircularProgress />
+                  </div>
                 </div>
               </div>
             </div>

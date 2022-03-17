@@ -102,21 +102,21 @@ const CircularNavBarTop = () => {
                 </div>
               </li> */}
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="Create_Apartment">
                   <div className="upside">
                     <a
                       href={() => false}
-                      className="button"
+                      className="button  hovertext"
                       type="submit"
                       onClick={() => setCreateModalShow(true)}
                     >
-                      <i className="fas fa-plus-square"></i>
+                      <i className="fas fa-car-building"></i>
                     </a>
                   </div>
                 </div>
               </li>
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="Add Renter">
                   <div className="upside">
                     <a href={() => false} className="button">
                       <i
@@ -153,7 +153,7 @@ const CircularNavBarTop = () => {
                 </div>
               </li>
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="Find Sub_Man">
                   <div className="upside">
                     <a href={() => false} className="button">
                       <i
@@ -165,11 +165,11 @@ const CircularNavBarTop = () => {
                 </div>
               </li>
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="Srarch Renter">
                   <div className="upside">
                     <a href={() => false} className="button">
                       <i
-                        className="fas fa-file-search"
+                        className="fas fa-users"
                         onClick={() => setFindRenter(true)}
                       ></i>
                     </a>
@@ -177,7 +177,7 @@ const CircularNavBarTop = () => {
                 </div>
               </li>
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="PayBill">
                   <div className="upside">
                     <a href={() => false} className="button">
                       <i
@@ -189,7 +189,7 @@ const CircularNavBarTop = () => {
                 </div>
               </li>
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="Unassing_Renter">
                   <div className="upside">
                     <a href={() => false} className="button">
                       <i
@@ -201,7 +201,7 @@ const CircularNavBarTop = () => {
                 </div>
               </li>
               <li>
-                <div className="placeholder">
+                <div className="placeholder" data-tooltip="Assing Renter">
                   <div className="upside">
                     <a href={() => false} className="button">
                       <i

@@ -10,7 +10,7 @@ const TableComponent = (props) => {
   };
 
   return (
-    <div className="cardBody">
+    <div className="table-Wrapper">
       <h4 className="text-light text-center">{props.title}</h4>
       <div className="ag-theme-alpine " style={{ height: 400, width: "100%" }}>
         <AgGridReact

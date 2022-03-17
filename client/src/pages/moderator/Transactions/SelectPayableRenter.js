@@ -95,6 +95,7 @@ function SelectPayableRenter(props) {
         onHide={() => setCreateTransactionModal(false)}
         apartData={apartmentDetail}
         tempBill={tempData}
+        billingDate={startDate}
       />
 
       <CreateTempBillModal
@@ -123,8 +124,17 @@ function SelectPayableRenter(props) {
                 selected={startDate}
                 onChange={(date) => onChangeDatePicker(date)}
                 maxDate={new Date()}
-                dateFormat="MMMM/yyyy"
-                showMonthYearPicker
+                // minDate={
+                //   user.role !== undefined || user.role !== ""
+                //     ? new Date()
+                //     : false
+                // }
+                dateFormat="MMMM d, yyyy"
+                // showMonthYearPicker
+                peekNextMonth
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="select"
               />
             </div>
             <div>

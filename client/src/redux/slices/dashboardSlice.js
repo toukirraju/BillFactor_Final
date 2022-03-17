@@ -78,7 +78,27 @@ export const getYearlyBills = createAsyncThunk(
   }
 );
 
+export const setReload = createAsyncThunk(
+  "common/reload",
+  async (args, thunkAPI) => {
+    try {
+      // const data = await DashboardService.getYearlyBill(year);
+      // return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = {
+  isReload: false,
   isSuccess: false,
   isPending: false,
   apartmentWidgets: {},
@@ -90,6 +110,7 @@ const initialState = {
 const dashboardSlice = createSlice({
   name: "dashboard",
   initialState,
+
   extraReducers: {
     //////////////////// getApartmentWidget /////////////////////
     [getApartmentWidget.pending]: (state, action) => {
@@ -145,6 +166,20 @@ const dashboardSlice = createSlice({
     [getYearlyBills.rejected]: (state, action) => {
       state.isSuccess = false;
       state.isPending = false;
+    },
+
+    ////////////////// setReload /////////////////////
+    [setReload.pending]: (state, action) => {
+      state.isPending = true;
+      state.isReload = false;
+    },
+    [setReload.fulfilled]: (state, action) => {
+      state.isPending = false;
+      state.isReload = true;
+    },
+    [setReload.rejected]: (state, action) => {
+      state.isPending = false;
+      state.isReload = false;
     },
   },
 });
