@@ -12,6 +12,11 @@
   width: 30%;
 }
 
+.payableAmount {
+  font-size: 20px;
+  font-weight: 900;
+}
+
 .datepicker-container {
   display: flex;
   flex-direction: row;

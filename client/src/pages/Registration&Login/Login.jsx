@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import "./reg&login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Navigate, Route, Routes } from "react-router-dom";
+import { useNavigate, Navigate, Route, Routes, Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -55,22 +56,17 @@ const Login = (props) => {
 
   return (
     <>
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
-      <div
-        className="tab-pane fade show active"
-        id="home"
-        role="tabpanel"
-        aria-labelledby="home-tab"
-      >
-        <h3 className="register-heading">Login</h3>
-        <div className="row register-form">
-          <div className="col-md-8 offset-1">
+      <div className="app-wrapper ">
+        <div className="login-wrapper ">
+          {message && (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                {message}
+              </div>
+            </div>
+          )}
+          <div className="form-wrapper cardBody">
+            <h3 className="heading">Login</h3>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -81,8 +77,9 @@ const Login = (props) => {
                   <Field
                     name="phone"
                     type="number"
-                    placeholder="Your Phone *"
+                    placeholder="Phone *"
                     className="form-control"
+                    autocomplete="off"
                   />
                   <ErrorMessage
                     name="phone"
@@ -104,7 +101,16 @@ const Login = (props) => {
                     className="alert alert-danger"
                   />
                 </div>
-                <input type="submit" className="btnRegister" value="Login" />
+                <p className="heading">
+                  Do not have an account??
+                  <Link to="/register">Go to register</Link>
+                </p>
+                <button type="submit" className="submit-btn" disabled={loading}>
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Login</span>
+                </button>
               </Form>
             </Formik>
           </div>

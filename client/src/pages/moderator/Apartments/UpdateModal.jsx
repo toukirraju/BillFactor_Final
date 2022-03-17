@@ -177,7 +177,7 @@ function UpdateModal(props) {
                               required
                               placeholder="Enter gasbill"
                             />
-                            <label for="floatingInput">Gasbill</label>
+                            <label for="floatingInput">Gas bill</label>
                           </div>
 
                           <div className="form-floating mb-3">
@@ -192,7 +192,7 @@ function UpdateModal(props) {
                               required
                               placeholder="Enter your waterbill"
                             />
-                            <label for="floatingInput">Waterbill</label>
+                            <label for="floatingInput">Water bill</label>
                           </div>
 
                           <div className="form-floating mb-3">
@@ -205,9 +205,9 @@ function UpdateModal(props) {
                               value={updatedData.f_bill}
                               onChange={changeHandler}
                               required
-                              placeholder="Enter f_bill"
+                              placeholder="Enter Fridge bill"
                             />
-                            <label for="floatingInput">f_bill</label>
+                            <label for="floatingInput">Fridge bill</label>
                           </div>
 
                           <div className="form-floating mb-3">
@@ -220,17 +220,19 @@ function UpdateModal(props) {
                               value={updatedData.c_service}
                               onChange={changeHandler}
                               required
-                              placeholder="Enter c_service"
+                              placeholder="Enter service charge"
                             />
-                            <label for="floatingInput">c_service</label>
+                            <label for="floatingInput">Service charge</label>
                           </div>
 
-                          <button className="btn btn-primary">Submit</button>
+                          <button className="btn btn-primary m-1">
+                            Submit
+                          </button>
                           <button
-                            className="btn btn-danger"
+                            className="btn btn-danger m-1"
                             onClick={() => Close()}
                           >
-                            close
+                            Close
                           </button>
                         </form>
                       </div>

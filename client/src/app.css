@@ -2,6 +2,16 @@ app {
   margin: 0;
 }
 
+.app-wrapper {
+  background: rgb(188, 227, 222);
+  height: calc(100vh - 62px);
+  overflow-y: auto;
+  background-image: url(../../client/public/image/Dec_1_20.jpg);
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+}
+
 .input-container {
   display: flex;
   flex-direction: row;

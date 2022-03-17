@@ -108,7 +108,7 @@ const ApartmentDetails = () => {
           levelAndApartmentCount(apartments.floors).map((count, index) => (
             <>
               <div className="text-center container cardBody">
-                <h1>{`Floor ${count.floor}`}</h1>
+                <h1 className="heading">{`Floor ${count.floor}`}</h1>
                 {/* <h5>{`Apartments ${count.apartments}`}</h5> */}
                 <h5>{`Rooms ${count.rooms}`}</h5>
                 <>
@@ -156,13 +156,13 @@ const ApartmentDetails = () => {
                                   </td>
                                   <td class="table-light">
                                     <button
-                                      className="btn btn-primary me-2"
+                                      className="btn btn-outline-primary me-2"
                                       onClick={() => openUpdateModal(newItem)}
                                     >
-                                      edit
+                                      Update
                                     </button>
                                     <button
-                                      className="btn btn-danger"
+                                      className="btn btn-outline-danger"
                                       onClick={() => handleRemove(newItem)}
                                     >
                                       Remove
