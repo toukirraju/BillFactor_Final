@@ -1,7 +1,10 @@
 app {
   margin: 0;
 }
-
+.link {
+  text-decoration: none;
+  color: inherit;
+}
 .app-wrapper {
   background: rgb(188, 227, 222);
   height: calc(100vh - 62px);

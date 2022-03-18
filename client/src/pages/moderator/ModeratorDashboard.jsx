@@ -215,27 +215,12 @@ const ModeratorDashboard = () => {
             </div>
             <div className="col-md-6 ">
               <div className="row ">
-                <div className="cardBody d-flex">
-                  {/* Date picker */}
-                  <div className="input-container">
-                    <div>
-                      <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        dateFormat="MMMM/yyyy"
-                        showYearPicker
-                        withPortal
-                      />
-                    </div>
-                    <div>
-                      <button
-                        className="btn btn-outline-primary"
-                        // onClick={() => dispatch(getMonthlyTransactions({ month, year }))}
-                      >
-                        &#x1F50E;
-                      </button>
-                    </div>
-                  </div>
+                <div className="cardBody">
+                  <h1 className="text-center text-light">Chayanirr</h1>
+                  <p className="text-center text-light">
+                    <b>House No: </b> K-241/1, <b>Location: </b>Laxmipura,
+                    Joydebpur, Gazipur{" "}
+                  </p>
                 </div>
                 <div className="col-md-6">
                   <div className="cardBody">
@@ -368,6 +353,27 @@ const ModeratorDashboard = () => {
               ) : null}
             </div>
             <div className="">
+              <div className="input-container">
+                <div>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="MMMM/yyyy"
+                    showMonthYearPicker
+                    withPortal
+                  />
+                </div>
+                <div>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={() =>
+                      dispatch(getMonthlyTransactions({ month, year }))
+                    }
+                  >
+                    &#x1F50E;
+                  </button>
+                </div>
+              </div>
               {transactions ? (
                 <TableComponent
                   title="Bills"
