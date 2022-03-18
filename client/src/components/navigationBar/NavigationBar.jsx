@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./navigation.css";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { logout } from "../../redux/slices/auth";
-
+import logo from "../../assets/Billfactor.png";
 const NavigationBar = () => {
   const [showManagerBoard, setShowManagerBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -43,7 +43,15 @@ const NavigationBar = () => {
       >
         <Container className="navGlass">
           <Navbar.Brand>
-            <b className="text-dark">Bill</b>Factor
+            <Nav.Link
+              eventKey="1"
+              as={Link}
+              to="/"
+              className="text-white link d-flex"
+            >
+              <img src={logo} alt="logo" height="30px" />
+              <b className="text-dark">Bill</b>Factor
+            </Nav.Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">

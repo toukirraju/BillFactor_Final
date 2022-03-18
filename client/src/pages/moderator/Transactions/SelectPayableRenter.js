@@ -135,6 +135,7 @@ function SelectPayableRenter(props) {
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
+                withPortal
               />
             </div>
             <div>
