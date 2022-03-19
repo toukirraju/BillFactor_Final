@@ -125,7 +125,7 @@ const TransactionDetails = () => {
           show={confirmationPopUp}
           onHide={() => setConfirmationPopUp(false)}
           data={removeId}
-          popUpType="Remove_Bill"
+          pop_up_type="Remove_Bill"
         />
         {message && (
           <div className="form-group text-center">

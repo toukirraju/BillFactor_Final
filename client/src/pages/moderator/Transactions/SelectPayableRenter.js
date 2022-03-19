@@ -38,6 +38,7 @@ function SelectPayableRenter(props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({});
 
@@ -87,6 +88,12 @@ function SelectPayableRenter(props) {
 
     setRenterData(renter);
   };
+
+  useEffect(() => {
+    reset({
+      availRenter: "",
+    });
+  }, [showSelectOpt]);
 
   return (
     <div>
@@ -172,6 +179,7 @@ function SelectPayableRenter(props) {
                           id="floatingSelect"
                           name="availRenter"
                           {...register("availRenter", { required: true })}
+                          // onChange={(e) => (e.target.value = "availRenter")}
                         >
                           <option selected value="">
                             Select Renter
