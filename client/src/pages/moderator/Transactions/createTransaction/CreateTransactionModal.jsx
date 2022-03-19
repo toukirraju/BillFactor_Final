@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, FormCheck } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import ConfirmationPopUp from "../../../../components/confirmationPopUp/ConfirmationPopUp";
 
 const CreateTransactionModal = (props) => {
+  const { isReload } = useSelector((state) => state.dashboardData);
   const [confirmationPopUp, setConfirmationPopUp] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isDetailsSwitchOn, setIsDetailsSwitchOn] = useState(true);
-
   const onSwitchAction = () => {
     setIsSwitchOn(!isSwitchOn);
   };
@@ -81,6 +82,7 @@ const CreateTransactionModal = (props) => {
       due: newDue > 0 ? newDue : 0,
       date: props.billingDate,
     });
+
     setConfirmationPopUp(true);
     props.onHide(true);
   };
@@ -96,7 +98,21 @@ const CreateTransactionModal = (props) => {
       paidAmount: 0,
       due: props.tempBill.tempDue ? props.tempBill.tempDue : 0,
     });
-  }, [props.tempBill]);
+  }, [props.tempBill, isReload]);
+
+  useEffect(() => {
+    setTransAmount({
+      renterId: "",
+      renterName: "",
+
+      e_bill: 0,
+      o_bill: 0,
+      totalRent: 0,
+      payableAmount: 0,
+      paidAmount: 0,
+      due: 0,
+    });
+  }, [confirmationPopUp]);
 
   return (
     <>
@@ -104,7 +120,7 @@ const CreateTransactionModal = (props) => {
         show={confirmationPopUp}
         onHide={() => setConfirmationPopUp(false)}
         data={submitedtransAmount}
-        popUpType="Create_Bill"
+        pop_up_type="Create_Bill"
       />
       <Modal
         {...props}
@@ -114,9 +130,10 @@ const CreateTransactionModal = (props) => {
         // className="bg-dark bg-gradient"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Make Payment </Modal.Title>
+          <Modal.Title>Make Payment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <p>Name: {props.apartData.renterName}</p>
           <Form>
             <Form.Switch
               onChange={onDetailsSwitchAction}

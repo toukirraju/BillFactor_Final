@@ -15,34 +15,68 @@ import { setReload } from "../../redux/slices/dashboardSlice";
 
 const ConfirmationPopUp = (props) => {
   const [unassignApartment, setUnassignApartment] = React.useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleConfirm = () => {
-    if (props.popUpType === "Remove_Apartment") {
-      dispatch(removeLevels(props.data));
-      props.onHide(false);
-    } else if (props.popUpType === "Remove_Renter") {
-      dispatch(removeRenter(props.data));
-      props.onHide(false);
-    } else if (props.popUpType === "Remove_Bill") {
-      dispatch(removeBill(props.data));
-      dispatch(setReload());
-      props.onHide(false);
-    } else if (props.popUpType === "Create_Bill") {
-      dispatch(createBill(props.data))
-        .unwrap()
-        .then(() => {
-          toast.success("Payment complete!");
-          // navigate("/transaction");
-          dispatch(setReload());
-        })
-        .catch(() => {
-          toast.error("Something went wrong!");
-        });
-      props.onHide(false);
-    } else if (props.popUpType === "Create_Temp_Bill") {
-      dispatch(createTempBill(props.data));
-      props.onHide(false);
+    // if (props.pop_up_type === "Remove_Apartment") {
+    //   dispatch(removeLevels(props.data));
+    //   props.onHide(false);
+    // } else if (props.pop_up_type === "Remove_Renter") {
+    //   dispatch(removeRenter(props.data));
+    //   props.onHide(false);
+    // } else if (props.pop_up_type === "Remove_Bill") {
+    //   dispatch(removeBill(props.data));
+    //   dispatch(setReload());
+    //   props.onHide(false);
+    // } else if (props.pop_up_type === "Create_Bill") {
+    //   dispatch(createBill(props.data))
+    //     .unwrap()
+    //     .then(() => {
+    //       toast.success("Payment complete!");
+    //       // navigate("/transaction");
+    //       dispatch(setReload());
+    //     })
+    //     .catch(() => {
+    //       toast.error("Something went wrong!");
+    //     });
+    //   props.onHide(false);
+    // } else if (props.pop_up_type === "Create_Temp_Bill") {
+    //   dispatch(createTempBill(props.data));
+    //   props.onHide(false);
+    // }
+
+    switch (props.pop_up_type) {
+      case "Remove_Apartment":
+        dispatch(removeLevels(props.data));
+        props.onHide(false);
+        break;
+      case "Remove_Renter":
+        dispatch(removeRenter(props.data));
+        props.onHide(false);
+        break;
+      case "Remove_Bill":
+        dispatch(removeBill(props.data));
+        dispatch(setReload());
+        props.onHide(false);
+        break;
+      case "Create_Bill":
+        dispatch(createBill(props.data))
+          .unwrap()
+          .then(() => {
+            toast.success("Payment complete!");
+            // navigate("/transaction");
+            dispatch(setReload());
+          })
+          .catch(() => {
+            toast.error("Something went wrong!");
+          });
+        props.onHide(false);
+        break;
+      case "Create_Temp_Bill":
+        dispatch(createTempBill(props.data));
+        props.onHide(false);
+        break;
     }
   };
   const unAssingned = () => {
@@ -60,16 +94,16 @@ const ConfirmationPopUp = (props) => {
       >
         {props.data ? (
           <>
-            {props.popUpType === "Remove_Apartment" ||
-            props.popUpType === "Remove_Bill" ||
-            props.popUpType === "Remove_Renter" ? (
+            {props.pop_up_type === "Remove_Apartment" ||
+            props.pop_up_type === "Remove_Bill" ||
+            props.pop_up_type === "Remove_Renter" ? (
               <>
                 <Modal.Header closeButton>
                   <Modal.Title> Are you sure? </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div className="alert alert-danger" role="alert">
-                    Do you really want to {props.popUpType}? After removing it
+                    Do you really want to {props.pop_up_type}? After removing it
                     cannot be undone.
                   </div>
                 </Modal.Body>
@@ -85,15 +119,15 @@ const ConfirmationPopUp = (props) => {
                   </Button>
                 </Modal.Footer>
               </>
-            ) : props.popUpType === "Create_Bill" ? (
+            ) : props.pop_up_type === "Create_Bill" ? (
               <>
                 <Modal.Header closeButton>
                   <Modal.Title> Are you sure? </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div className="alert alert-warning" role="alert">
-                    Do you really want to {props.popUpType}? After{" "}
-                    {props.popUpType}, it cannot be undone.
+                    Do you really want to {props.pop_up_type}? After{" "}
+                    {props.pop_up_type}, it cannot be undone.
                   </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -108,14 +142,14 @@ const ConfirmationPopUp = (props) => {
                   </Button>
                 </Modal.Footer>
               </>
-            ) : props.popUpType === "Create_Temp_Bill" ? (
+            ) : props.pop_up_type === "Create_Temp_Bill" ? (
               <>
                 <Modal.Header closeButton>
                   <Modal.Title> Are you sure? </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div className="alert alert-warning" role="alert">
-                    Do you really want to {props.popUpType}? After{" "}
+                    Do you really want to {props.pop_up_type}? After{" "}
                     {props.popUpType}, it cannot be undone.
                   </div>
                 </Modal.Body>
@@ -140,7 +174,7 @@ const ConfirmationPopUp = (props) => {
             </Modal.Header>
             <Modal.Body>
               <div className="alert alert-danger" role="alert">
-                To remove the {props.popUpType}, it must be unassigned first.
+                To remove the {props.pop_up_type}, it must be unassigned first.
               </div>
             </Modal.Body>
             <Modal.Footer>

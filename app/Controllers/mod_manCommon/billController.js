@@ -7,6 +7,8 @@ const { serverError, resourceError } = require("../../utils/error");
 module.exports = {
   createBill(req, res) {
     const { name, _id, role, homeId, homeOwner } = req.user;
+    // const _id = "1981493110";
+    // const name = "ChayaNirr";
     let objData = new Object({
       renterId: req.body.renterId,
       renterName: req.body.renterName,
@@ -59,7 +61,7 @@ module.exports = {
             })
             .catch((error) => serverError(res, error));
         } else {
-          if (payment.bills.length == 0) {
+          if (payment.bills.length === 0) {
             payment.bills.push(objData);
             payment
               .save()
@@ -70,15 +72,43 @@ module.exports = {
               })
               .catch((error) => serverError(res, error));
           } else {
-            payment.bills.push(objData);
-            payment
-              .save()
-              .then((response) => {
-                res.status(201).json({
-                  message: "Created Successfully",
-                });
-              })
-              .catch((error) => serverError(res, error));
+            let isPayment = false;
+            payment.bills.map((bill) => {
+              if (
+                bill.renterId === objData.renterId &&
+                new Date(bill.date).getMonth() + 1 ===
+                  new Date(objData.date).getMonth() + 1 &&
+                new Date(bill.date).getFullYear() ===
+                  new Date(objData.date).getFullYear()
+              ) {
+                return (isPayment = true);
+              }
+            });
+            if (isPayment) {
+              return resourceError(
+                res,
+                "Somthing went wrong..Please try again"
+              );
+            } else {
+              payment.bills.push(objData);
+              payment
+                .save()
+                .then((response) => {
+                  res.status(201).json({
+                    message: "Created Successfully",
+                  });
+                })
+                .catch((error) => serverError(res, error));
+            }
+            // payment.bills.push(objData);
+            // payment
+            //   .save()
+            //   .then((response) => {
+            //     res.status(201).json({
+            //       message: "Created Successfully",
+            //     });
+            //   })
+            //   .catch((error) => serverError(res, error));
           }
         }
       })

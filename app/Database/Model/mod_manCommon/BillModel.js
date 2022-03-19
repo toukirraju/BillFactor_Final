@@ -14,9 +14,11 @@ const billSchema = new Schema({
     {
       renterId: {
         type: String,
+        required: true,
       },
       renterName: {
         type: String,
+        required: true,
       },
 
       e_bill: {
