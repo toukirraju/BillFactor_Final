@@ -59,7 +59,7 @@ const RenterDetails = () => {
           show={confirmationPopUp}
           onHide={() => setConfirmationPopUp(false)}
           data={removeId}
-          popUpType="Remove_Renter"
+          pop_up_type="Remove_Renter"
         />
 
         {message && (

@@ -87,7 +87,7 @@ const ApartmentDetails = () => {
           show={confirmationPopUp}
           onHide={() => setConfirmationPopUp(false)}
           data={removeId}
-          popUpType="Remove_Apartment"
+          pop_up_type="Remove_Apartment"
         />
 
         <UpdateModal
@@ -113,9 +113,9 @@ const ApartmentDetails = () => {
                 <h5>{`Rooms ${count.rooms}`}</h5>
                 <>
                   <div className="table-responsive">
-                    <table class="table align-middle table-hover">
+                    <table className="table align-middle table-hover">
                       <thead>
-                        <tr>
+                        <tr key={index}>
                           <th scope="col">Apartement</th>
                           <th scope="col">Room</th>
                           <th scope="col">Rent</th>
@@ -128,33 +128,37 @@ const ApartmentDetails = () => {
                         </tr>
                       </thead>
 
-                      {apartments.floors.map((newItem) => {
+                      {apartments.floors.map((newItem, idx) => {
                         if (count.floor == newItem.level) {
                           return (
                             <>
                               <tbody>
-                                <tr>
-                                  <td class="table-primary">
+                                <tr key={idx}>
+                                  <td className="table-primary">
                                     {newItem.apartNo}
                                   </td>
-                                  <td class="table-secondary">
+                                  <td className="table-secondary">
                                     {newItem.roomNo}
                                   </td>
-                                  <td class="table-success">{newItem.rent}</td>
-                                  <td class="table-danger">
+                                  <td className="table-success">
+                                    {newItem.rent}
+                                  </td>
+                                  <td className="table-danger">
                                     {newItem.gasbill}
                                   </td>
-                                  <td class="table-warning">
+                                  <td className="table-warning">
                                     {newItem.waterbill}
                                   </td>
-                                  <td class="table-info">
+                                  <td className="table-info">
                                     {newItem.c_service}
                                   </td>
-                                  <td class="table-dark">{newItem.status}</td>
-                                  <td class="table-secondary">
+                                  <td className="table-dark">
+                                    {newItem.status}
+                                  </td>
+                                  <td className="table-secondary">
                                     {newItem.renterName}
                                   </td>
-                                  <td class="table-light">
+                                  <td className="table-light">
                                     <button
                                       className="btn btn-outline-primary me-2"
                                       onClick={() => openUpdateModal(newItem)}
@@ -191,9 +195,9 @@ const ApartmentDetails = () => {
             </>
           ))
         ) : (
-          <div class="d-flex justify-content-center">
-            <div class="spinner-border text-info" role="status">
-              <span class="visually-hidden">Loading...</span>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         )}

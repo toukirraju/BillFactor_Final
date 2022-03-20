@@ -69,7 +69,7 @@ const CreateTempBillModal = (props) => {
         show={confirmationPopUp}
         onHide={() => setConfirmationPopUp(false)}
         data={confirmData}
-        popUpType="Create_Temp_Bill"
+        pop_up_type="Create_Temp_Bill"
       />
       <Modal
         {...props}

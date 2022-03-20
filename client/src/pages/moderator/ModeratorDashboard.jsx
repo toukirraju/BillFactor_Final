@@ -10,6 +10,8 @@ import SelectPayableRenter from "./Transactions/SelectPayableRenter";
 import BarChartCompo from "../../components/dashboard/Charts/BarChartCompo";
 import PieChart from "../../components/dashboard/Charts/PieChart";
 
+import { Form } from "react-bootstrap";
+
 import TableComponent from "../../components/dashboard/Tables/TableComponent";
 
 import DatePicker from "react-datepicker";
@@ -31,22 +33,23 @@ const ModeratorDashboard = () => {
 
   const { apartmentWidgets, renterWidgets, billWidgets, isPending, isReload } =
     useSelector((state) => state.dashboardData);
-  // console.log(billWidgets);
+
   const [payableRenter, setPayableRenter] = React.useState(false);
   const [findRenter, setFindRenter] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
 
   const month = startDate.getMonth() + 1;
   const year = startDate.getFullYear();
-  // const { message, isReload } = useSelector((state) => state.message);
 
-  // useEffect(() => {
-  //   dispatch(allApartments());
-  // }, [isAdded, dispatch]);
+  const [isApartSwitchOn, setIsApartSwitchOn] = React.useState(false);
+  const [isRenterSwitchOn, setIsRenterSwitchOn] = React.useState(false);
+  const onRenterSwitchAction = () => {
+    setIsRenterSwitchOn(!isRenterSwitchOn);
+  };
+  const onApartSwitchAction = () => {
+    setIsApartSwitchOn(!isApartSwitchOn);
+  };
 
-  // useEffect(() => {
-  //   dispatch(clearMessage());
-  // }, [dispatch]);
   function dateFormatter(params) {
     return new Date(params.value).toDateString();
   }
@@ -333,26 +336,52 @@ const ModeratorDashboard = () => {
 
           {/*  Tables */}
 
-          <div className="row">
-            <div className="col-md-6">
-              {apartments ? (
-                <TableComponent
-                  title="Apartment"
-                  rowData={apartments.floors}
-                  columns={apartmentTabColumns}
+          <div className="my-3">
+            <div className="Apartments">
+              <Form>
+                <Form.Switch
+                  onChange={onApartSwitchAction}
+                  id="custom-switch"
+                  label="Apartments"
+                  checked={isApartSwitchOn}
+                  // disabled // apply if you want the switch disabled
                 />
+              </Form>
+              {isApartSwitchOn ? (
+                <>
+                  {apartments ? (
+                    <TableComponent
+                      title="Apartment"
+                      rowData={apartments.floors}
+                      columns={apartmentTabColumns}
+                    />
+                  ) : null}
+                </>
               ) : null}
             </div>
-            <div className="col-md-6">
-              {renterData ? (
-                <TableComponent
-                  title="Renters"
-                  rowData={renterData.renters}
-                  columns={renterTabColumns}
+            <div className="Renters">
+              <Form>
+                <Form.Switch
+                  onChange={onRenterSwitchAction}
+                  id="custom-switch"
+                  label="Renters"
+                  checked={isRenterSwitchOn}
+                  // disabled // apply if you want the switch disabled
                 />
+              </Form>
+              {isRenterSwitchOn ? (
+                <>
+                  {renterData ? (
+                    <TableComponent
+                      title="Renters"
+                      rowData={renterData.renters}
+                      columns={renterTabColumns}
+                    />
+                  ) : null}
+                </>
               ) : null}
             </div>
-            <div className="">
+            <div className="Bills">
               <div className="input-container">
                 <div>
                   <DatePicker
@@ -384,14 +413,6 @@ const ModeratorDashboard = () => {
             </div>
           </div>
         </div>
-
-        {/* {message && (
-          <div className="form-group">
-            <div className="alert alert-danger" role="alert">
-              {message}
-            </div>
-          </div>
-        )} */}
       </div>
     </>
   );
