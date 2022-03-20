@@ -19,33 +19,6 @@ const ConfirmationPopUp = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleConfirm = () => {
-    // if (props.pop_up_type === "Remove_Apartment") {
-    //   dispatch(removeLevels(props.data));
-    //   props.onHide(false);
-    // } else if (props.pop_up_type === "Remove_Renter") {
-    //   dispatch(removeRenter(props.data));
-    //   props.onHide(false);
-    // } else if (props.pop_up_type === "Remove_Bill") {
-    //   dispatch(removeBill(props.data));
-    //   dispatch(setReload());
-    //   props.onHide(false);
-    // } else if (props.pop_up_type === "Create_Bill") {
-    //   dispatch(createBill(props.data))
-    //     .unwrap()
-    //     .then(() => {
-    //       toast.success("Payment complete!");
-    //       // navigate("/transaction");
-    //       dispatch(setReload());
-    //     })
-    //     .catch(() => {
-    //       toast.error("Something went wrong!");
-    //     });
-    //   props.onHide(false);
-    // } else if (props.pop_up_type === "Create_Temp_Bill") {
-    //   dispatch(createTempBill(props.data));
-    //   props.onHide(false);
-    // }
-
     switch (props.pop_up_type) {
       case "Remove_Apartment":
         dispatch(removeLevels(props.data));
@@ -76,6 +49,7 @@ const ConfirmationPopUp = (props) => {
       case "Create_Temp_Bill":
         dispatch(createTempBill(props.data));
         props.onHide(false);
+        dispatch(setReload());
         break;
     }
   };

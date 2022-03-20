@@ -1,6 +1,6 @@
 .moderatorWraper {
   background: rgb(188, 227, 222);
-  height: calc(100vh - 62px);
+  height: calc(100vh - 75px);
   overflow-y: auto;
   background-image: url(../../../public/image/Dec_1_20.jpg);
   background-position: center; /* Center the image */
@@ -18,4 +18,32 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(90, 216, 255, 0.3);
+}
+
+.form-check-input {
+  width: 60px !important;
+  height: 30px !important;
+  border-radius: 12px !important;
+  background-image: url("data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27><circle r=%273%27 fill=%27%23666%27/></svg>") !important;
+}
+.form-check-input:checked {
+  background-color: #666 !important;
+  border-color: #6668 !important;
+  background-image: url("data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27><circle r=%273%27 fill=%27%23fff%27/></svg>") !important;
+}
+
+.form-check-input:focus {
+  border-color: #6668 !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+/* .form-check-label::before,
+.form-check-label::after {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+} */
+.form-check-label {
+  margin: 5px;
+  color: rgb(219, 202, 202);
 }

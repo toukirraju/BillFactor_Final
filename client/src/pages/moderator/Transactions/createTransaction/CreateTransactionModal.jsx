@@ -133,7 +133,10 @@ const CreateTransactionModal = (props) => {
           <Modal.Title>Make Payment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Name: {props.apartData.renterName}</p>
+          <h5>
+            <b>Name: </b>
+            {props.apartData.renterName}
+          </h5>
           <Form>
             <Form.Switch
               onChange={onDetailsSwitchAction}
