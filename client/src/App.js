@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./app.css";
 import NavigationBar from "./components/navigationBar/NavigationBar";
 import Home from "./pages/home/Home";
@@ -52,11 +52,12 @@ function App() {
                     />
                     <Route
                       path="*"
-                      element={
-                        <main style={{ padding: "1rem" }}>
-                          <p>There's nothing here!</p>
-                        </main>
-                      }
+                      // element={
+                      //   <main style={{ padding: "1rem" }}>
+                      //     <p>There's nothing here!</p>
+                      //   </main>
+                      // }
+                      element={<Navigate to="/mod" replace />}
                     />
                   </>
                 ) : (
@@ -64,11 +65,12 @@ function App() {
                     <Route path="/mod" element={<ModeratorDashboard />} />
                     <Route
                       path="*"
-                      element={
-                        <main style={{ padding: "1rem" }}>
-                          <p>There's nothing here!</p>
-                        </main>
-                      }
+                      // element={
+                      //   <main style={{ padding: "1rem" }}>
+                      //     <p>There's nothing here!</p>
+                      //   </main>
+                      // }
+                      element={<Navigate to="/mod" replace />}
                     />
                   </>
                 )
@@ -81,6 +83,15 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Registration />} />
+              <Route
+                path="*"
+                // element={
+                //   <main style={{ padding: "1rem" }}>
+                //     <p>There's nothing here!</p>
+                //   </main>
+                // }
+                element={<Navigate to="/" replace />}
+              />
             </>
           )}
         </Routes>

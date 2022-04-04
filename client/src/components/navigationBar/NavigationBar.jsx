@@ -93,7 +93,7 @@ const NavigationBar = () => {
                       eventKey="6"
                       as={Link}
                       to="login"
-                      className="navLink"
+                      className="navLink bg-danger"
                       onClick={logOut}
                     >
                       {/* <Link > */}

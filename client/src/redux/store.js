@@ -22,4 +22,5 @@ export default configureStore({
     dashboardData: dashboardReducer,
     role: roleReducer,
   },
+  // devTools: false,
 });
