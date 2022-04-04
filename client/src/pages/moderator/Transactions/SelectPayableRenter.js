@@ -73,6 +73,7 @@ function SelectPayableRenter(props) {
       .catch((err) => console.log(err));
     props.onHide(true);
     setShowSelectOpt(false);
+    setRenterData(renter);
   };
 
   // make Temporary bill model
@@ -94,7 +95,6 @@ function SelectPayableRenter(props) {
       availRenter: "",
     });
   }, [showSelectOpt]);
-
   return (
     <div>
       <CreateTransactionModal
@@ -103,6 +103,7 @@ function SelectPayableRenter(props) {
         apartData={apartmentDetail}
         tempBill={tempData}
         billingDate={startDate}
+        renter={renterData}
       />
 
       <CreateTempBillModal
