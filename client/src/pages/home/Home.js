@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../assets/Billfactor3.png";
+import Login from "../Registration&Login/Login";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -27,17 +28,20 @@ const Home = () => {
 
   // console.log(`auth`, auth);
   return (
-    <div className="wrapper">
-      <div className="cardBody">
-        <div className="text-center">
-          <img src={logo} alt="logo" height={200} />
+    <>
+      <Login />
+      {/* <div className="wrapper">
+        <div className="cardBody">
+          <div className="text-center">
+            <img src={logo} alt="logo" height={200} />
+          </div>
+          <h5 className=" mt-5 heading">BillFactor</h5>
+          <p className="heading text-uppercase">
+            It can make your life more easier{" "}
+          </p>
         </div>
-        <h5 className=" mt-5 heading">BillFactor</h5>
-        <p className="heading text-uppercase">
-          It can make your life more easier{" "}
-        </p>
-      </div>
-    </div>
+      </div> */}
+    </>
   );
 };
 

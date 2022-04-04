@@ -7,6 +7,14 @@ const TableComponent = (props) => {
     sortable: true,
     filter: true,
     floatingFilter: true,
+    // filterParams: {
+    //   filterOptions: ["contains", "notContains"],
+    //   defaultOption: "contains",
+    //   caseSensitive: true,
+    //   textCustomComparator: (filter, value, filterText) => {
+    //     console.log(filter, value, filterText);
+    //   },
+    // },
   };
 
   return (
