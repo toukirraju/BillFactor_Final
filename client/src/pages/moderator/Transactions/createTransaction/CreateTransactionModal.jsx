@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Form, FormCheck } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ConfirmationPopUp from "../../../../components/confirmationPopUp/ConfirmationPopUp";
 
 const CreateTransactionModal = (props) => {
   const { isReload } = useSelector((state) => state.dashboardData);
+  const { user } = useSelector((state) => state.auth);
   const [confirmationPopUp, setConfirmationPopUp] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isDetailsSwitchOn, setIsDetailsSwitchOn] = useState(true);
+  const [isSMSOn, setIsSMSOn] = useState(true);
   const onSwitchAction = () => {
     setIsSwitchOn(!isSwitchOn);
   };
   const onDetailsSwitchAction = () => {
     setIsDetailsSwitchOn(!isDetailsSwitchOn);
+  };
+  const onSmsSwitchAction = () => {
+    setIsSMSOn(!isSMSOn);
   };
 
   const {
@@ -50,6 +55,9 @@ const CreateTransactionModal = (props) => {
     renterId: transAmount.renterId,
     renterName: transAmount.renterName,
 
+    phone: props.renter.phone,
+    isSMS: isSMSOn,
+
     e_bill: transAmount.e_bill,
     o_bill: transAmount.o_bill,
     totalRent: transAmount.totalRent,
@@ -73,6 +81,9 @@ const CreateTransactionModal = (props) => {
     setSubmitedTransAmount({
       renterId: transAmount.renterId,
       renterName: transAmount.renterName,
+
+      phone: props.renter.phone,
+      isSMS: isSMSOn,
 
       e_bill: transAmount.e_bill,
       o_bill: transAmount.o_bill,
@@ -137,15 +148,41 @@ const CreateTransactionModal = (props) => {
             <b>Name: </b>
             {props.apartData.renterName}
           </h5>
-          <Form>
-            <Form.Switch
-              onChange={onDetailsSwitchAction}
-              id="custom-switch"
-              label="Show Bill Details"
-              checked={isDetailsSwitchOn}
-              // disabled // apply if you want the switch disabled
-            />
-          </Form>
+          <div className="d-flex justify-content-between">
+            {user.role === undefined || user.role === "" ? (
+              <>
+                <Form>
+                  <Form.Switch
+                    onChange={onDetailsSwitchAction}
+                    id="custom-switch"
+                    label="Show Bill Details"
+                    checked={isDetailsSwitchOn}
+                  />
+                </Form>
+
+                <Form>
+                  <Form.Switch
+                    onChange={onSmsSwitchAction}
+                    id="custom-switch"
+                    label="Sms on/off"
+                    checked={isSMSOn}
+                  />
+                </Form>
+              </>
+            ) : (
+              <>
+                <Form>
+                  <Form.Switch
+                    onChange={onDetailsSwitchAction}
+                    id="custom-switch"
+                    label="Show Bill Details"
+                    checked={isDetailsSwitchOn}
+                    // disabled // apply if you want the switch disabled
+                  />
+                </Form>
+              </>
+            )}
+          </div>
 
           {isDetailsSwitchOn ? (
             <>

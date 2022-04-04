@@ -1,12 +1,14 @@
 const BillModel = require("../../Database/Model/mod_manCommon/BillModel");
 const TempBillModel = require("../../Database/Model/mod_manCommon/TempBillModel");
 const RenterModel = require("../../Database/Model/moderatorModels/renterModel");
-var _ = require("lodash");
+
 const { serverError, resourceError } = require("../../utils/error");
+const { sendMessage } = require("../../utils/methods");
 
 module.exports = {
   createBill(req, res) {
     const { name, _id, role, homeId, homeOwner } = req.user;
+    const sms = req.body.isSMS;
     // const _id = "1981493110";
     // const name = "ChayaNirr";
     let objData = new Object({
@@ -55,6 +57,9 @@ module.exports = {
           billData
             .save()
             .then((response) => {
+              if (sms) {
+                sendMessage(objData, req.body.phone);
+              }
               res.status(201).json({
                 message: "Created Successfully",
               });
@@ -66,6 +71,9 @@ module.exports = {
             payment
               .save()
               .then((response) => {
+                if (sms) {
+                  sendMessage(objData, req.body.phone);
+                }
                 res.status(201).json({
                   message: "Created Successfully",
                 });
@@ -94,21 +102,16 @@ module.exports = {
               payment
                 .save()
                 .then((response) => {
+                  if (sms) {
+                    sendMessage(objData, req.body.phone);
+                  }
+
                   res.status(201).json({
                     message: "Created Successfully",
                   });
                 })
                 .catch((error) => serverError(res, error));
             }
-            // payment.bills.push(objData);
-            // payment
-            //   .save()
-            //   .then((response) => {
-            //     res.status(201).json({
-            //       message: "Created Successfully",
-            //     });
-            //   })
-            //   .catch((error) => serverError(res, error));
           }
         }
       })
