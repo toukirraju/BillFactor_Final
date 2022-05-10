@@ -10,6 +10,7 @@ const {
   allTempBills,
   removeBill,
   payableRenters,
+  updateTempBill,
 } = require("../Controllers/mod_manCommon/billController");
 const {
   apartmentWidget,
@@ -25,6 +26,8 @@ router.post("/bill/createBill", authenticate, createBill); ////
 router.get(`/bill/tempbill/:renterId`, authenticate, getTempBill); ////
 
 router.post(`/bill/tempbill/create`, authenticate, createTemp);
+
+router.post("/bill/tempbill/updateTemp", authenticate, updateTempBill);
 
 router.get(`/bill/tempbill`, authenticate, allTempBills);
 

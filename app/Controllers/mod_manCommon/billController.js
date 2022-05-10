@@ -369,6 +369,37 @@ module.exports = {
       .catch((error) => serverError(res, error));
   },
 
+  updateTempBill(req, res) {
+    let { _id, role, homeId, homeOwner } = req.user;
+
+    TempBillModel.findOne({
+      adminId: role === "" || role === undefined ? _id : homeId,
+    })
+      .then((doc) => {
+        if (doc) {
+          let tempData;
+
+          doc.tempBills.filter((i) => {
+            if (i._id == req.body._id) {
+              return (tempData = i);
+            }
+          });
+          tempData.e_bill = req.body.e_bill;
+          tempData.o_bill = req.body.o_bill;
+          tempData.tempDue = req.body.tempDue;
+
+          doc.save();
+
+          res.status(200).json({
+            message: "Successfully updated",
+          });
+        } else {
+          return resourceError(res, "Somthing went wrong");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
   payableRenters(req, res) {
     let { _id, role, homeId, homeOwner } = req.user;
 

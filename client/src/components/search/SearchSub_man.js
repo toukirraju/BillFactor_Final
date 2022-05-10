@@ -7,7 +7,7 @@ import {
   assignRole,
   getSub_Man,
   removeRole,
-} from "../../../redux/slices/roleSlice";
+} from "../../redux/slices/roleSlice";
 
 function SearchSub_man(props) {
   const dispatch = useDispatch();

@@ -21,6 +21,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import "react-circular-progressbar/dist/styles.css";
 import Login from "./pages/Registration&Login/Login";
 import Registration from "./pages/Registration&Login/Registration";
+import SideMenu from "./components/navigationBar/SideMenu";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,72 +30,100 @@ function App() {
     dispatch(logout());
   };
   return (
+    // <>
+    //   <SideMenu />
+    //   <div class="area">
+    //     <h1>hello</h1>
+    //   </div>
+    // </>
     <>
       <ToastContainer />
       <BrowserRouter>
         <NavigationBar />
-        <Routes>
-          {isLoggedIn ? (
-            <>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+        {isLoggedIn ? (
+          user.type === "manager" ? (
+            user.role === undefined || user.role === "" ? (
+              <>
+                <SideMenu />
+              </>
+            ) : null
+          ) : null
+        ) : null}
 
-              {user.type === "manager" ? (
-                user.role === undefined || user.role === "" ? (
-                  <>
-                    <Route path="/mod" element={<ModeratorDashboard />} />
-                    <Route path="/apartment" element={<ApartmentDetails />} />
-                    <Route path="/renter" element={<RenterDetails />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route
-                      path="/transaction"
-                      element={<TransactionDetails />}
-                    />
-                    <Route
-                      path="*"
-                      // element={
-                      //   <main style={{ padding: "1rem" }}>
-                      //     <p>There's nothing here!</p>
-                      //   </main>
-                      // }
-                      element={<Navigate to="/mod" replace />}
-                    />
-                  </>
+        <div
+          className={
+            isLoggedIn
+              ? user.type === "manager"
+                ? user.role === undefined || user.role === ""
+                  ? "area"
+                  : "area2"
+                : null
+              : null
+          }
+        >
+          <Routes>
+            {isLoggedIn ? (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+
+                {user.type === "manager" ? (
+                  user.role === undefined || user.role === "" ? (
+                    <>
+                      <Route path="/mod" element={<ModeratorDashboard />} />
+                      <Route path="/apartment" element={<ApartmentDetails />} />
+                      <Route path="/renter" element={<RenterDetails />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route
+                        path="/transaction"
+                        element={<TransactionDetails />}
+                      />
+                      <Route
+                        path="*"
+                        // element={
+                        //   <main style={{ padding: "1rem" }}>
+                        //     <p>There's nothing here!</p>
+                        //   </main>
+                        // }
+                        element={<Navigate to="/mod" replace />}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Route path="/mod" element={<ModeratorDashboard />} />
+                      <Route
+                        path="*"
+                        // element={
+                        //   <main style={{ padding: "1rem" }}>
+                        //     <p>There's nothing here!</p>
+                        //   </main>
+                        // }
+                        element={<Navigate to="/mod" replace />}
+                      />
+                    </>
+                  )
                 ) : (
-                  <>
-                    <Route path="/mod" element={<ModeratorDashboard />} />
-                    <Route
-                      path="*"
-                      // element={
-                      //   <main style={{ padding: "1rem" }}>
-                      //     <p>There's nothing here!</p>
-                      //   </main>
-                      // }
-                      element={<Navigate to="/mod" replace />}
-                    />
-                  </>
-                )
-              ) : (
-                <></>
-              )}
-            </>
-          ) : (
-            <>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
-              <Route
-                path="*"
-                // element={
-                //   <main style={{ padding: "1rem" }}>
-                //     <p>There's nothing here!</p>
-                //   </main>
-                // }
-                element={<Navigate to="/" replace />}
-              />
-            </>
-          )}
-        </Routes>
+                  <></>
+                )}
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Registration />} />
+                <Route
+                  path="*"
+                  // element={
+                  //   <main style={{ padding: "1rem" }}>
+                  //     <p>There's nothing here!</p>
+                  //   </main>
+                  // }
+                  element={<Navigate to="/" replace />}
+                />
+              </>
+            )}
+          </Routes>
+        </div>
         <AuthVerify logOut={logOut} />
       </BrowserRouter>
     </>

@@ -142,7 +142,9 @@ const Registration = () => {
                         <option className="hidden" selected>
                           Type
                         </option>
-                        <option value="normal_user">Normal User</option>
+                        <option disabled value="normal_user">
+                          Normal User
+                        </option>
                         <option value="manager">Manager</option>
                       </Field>
                       <ErrorMessage

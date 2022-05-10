@@ -11,18 +11,15 @@ import { getYearlyBills } from "../../../redux/slices/dashboardSlice";
 const BarChartCompo = () => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = React.useState(new Date());
-  const {
-    apartmentWidgets,
-    renterWidgets,
-    billWidgets,
-    yearlyBills,
-    isPending,
-  } = useSelector((state) => state.dashboardData);
+  const { yearlyBills, isPending, isReload } = useSelector(
+    (state) => state.dashboardData
+  );
+
   const year = startDate.getFullYear();
 
   useEffect(() => {
     dispatch(getYearlyBills(year));
-  }, [dispatch]);
+  }, [year, isReload, dispatch]);
   return (
     <>
       <div className="input-container">
@@ -116,6 +113,9 @@ const BarChartCompo = () => {
           options={{
             maintainAspectRatio: false,
             responsive: true,
+            animation: {
+              duration: 0,
+            },
             plugins: {
               legend: {
                 labels: {

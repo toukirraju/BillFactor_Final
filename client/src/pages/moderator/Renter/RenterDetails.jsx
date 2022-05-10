@@ -1,17 +1,20 @@
 import React, { useEffect } from "react";
-import "../moderatorPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import CircularNavBarTop from "../circularNavBar/CircularNavBarTop";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import CircularNavBarBottom from "../circularNavBar/CircularNavBarBottom";
+import { v4 as uuidv4 } from "uuid";
+
+import "../moderatorPage.css";
+
+import RenterUpdateModal from "../../../components/Renters/RenterUpdateModal";
+import ConfirmationPopUp from "../../../components/confirmationPopUp/ConfirmationPopUp";
+
 import { clearMessage } from "../../../redux/slices/message";
 import { allrenters } from "../../../redux/slices/renterSlice";
-import RenterUpdateModal from "./RenterUpdateModal";
-import ConfirmationPopUp from "../../../components/confirmationPopUp/ConfirmationPopUp";
+import AssignApartment from "../../../components/AssignRenterToApartment/AssignApartment";
+import UnassignApartment from "../../../components/AssignRenterToApartment/UnassignApartment";
 
 const RenterDetails = () => {
   const dispatch = useDispatch();
+
   const { data, isAdded } = useSelector((state) => state.renterCreator);
   const { message } = useSelector((state) => state.message);
 
@@ -20,6 +23,10 @@ const RenterDetails = () => {
   const [confirmationPopUp, setConfirmationPopUp] = React.useState(false);
   const [renterupdateModalShow, setRenterUpdateModalShow] =
     React.useState(false);
+
+  const [assignApartment, setAssignApartment] = React.useState(false);
+
+  const [unassignApartment, setUnassignApartment] = React.useState(false);
 
   const openUpdateModal = (upData) => {
     setRenterUpdateModalShow(true);
@@ -45,11 +52,14 @@ const RenterDetails = () => {
   return (
     <>
       <div className="moderatorWraper">
-        <CircularNavBarTop />
-        <CircularNavBarBottom />
-
-        <ToastContainer />
-
+        <AssignApartment
+          show={assignApartment}
+          onHide={() => setAssignApartment(false)}
+        />
+        <UnassignApartment
+          show={unassignApartment}
+          onHide={() => setUnassignApartment(false)}
+        />
         <RenterUpdateModal
           show={renterupdateModalShow}
           onHide={() => setRenterUpdateModalShow(false)}
@@ -72,34 +82,72 @@ const RenterDetails = () => {
 
         {data ? (
           <>
+            <div className="d-flex justify-content-center">
+              <button
+                className="d-flex btn btn-outline-success m-2"
+                onClick={() => setAssignApartment(true)}
+              >
+                <i className="fas fa-inbox-in"></i>
+                <span className="nav-text">Assign Renter</span>
+              </button>
+
+              <button
+                className="d-flex btn btn-outline-warning m-2"
+                onClick={() => setUnassignApartment(true)}
+              >
+                <i className="fas fa-inbox-out"></i>
+                <span className="nav-text">UnAssign Renter</span>
+              </button>
+            </div>
+
             <div className="container cardBody">
               <h1 className="text-center heading">All Renters</h1>
               <div className="table-responsive ">
-                <table class="table align-middle table-hover">
+                <table className="table align-middle table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Phone</th>
-                      <th scope="col">Address</th>
-                      <th scope="col">National Id</th>
-                      <th scope="col">Apartment No</th>
-                      <th scope="col">Room No</th>
-                      <th scope="col">Advance Rent</th>
-                      <th scope="col">Actions</th>
+                      <th scope="col" className="text-white">
+                        Serial
+                      </th>
+                      <th scope="col" className="text-white">
+                        Name
+                      </th>
+                      <th scope="col" className="text-white">
+                        Phone
+                      </th>
+                      <th scope="col" className="text-white">
+                        Address
+                      </th>
+                      <th scope="col" className="text-white">
+                        National Id
+                      </th>
+                      <th scope="col" className="text-white">
+                        Apartment No
+                      </th>
+                      <th scope="col" className="text-white">
+                        Room No
+                      </th>
+                      <th scope="col" className="text-white">
+                        Advance Rent
+                      </th>
+                      <th scope="col" className="text-white">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
-                  {data.renters.map((renter) => (
-                    <tbody>
+                  {data.renters.map((renter, index) => (
+                    <tbody key={uuidv4()}>
                       <tr>
-                        <td class="table-primary">{renter.renterName}</td>
-                        <td class="table-secondary">{renter.phone}</td>
-                        <td class="table-success">{renter.address}</td>
-                        <td class="table-danger">{renter.nId}</td>
-                        <td class="table-warning">{renter.apartNo}</td>
-                        <td class="table-info">{renter.roomNo}</td>
-                        <td class="table-dark">{renter.advanceRent}</td>
+                        <td className="table-danger">{index + 1}</td>
+                        <td className="table-primary">{renter.renterName}</td>
+                        <td className="table-secondary">{renter.phone}</td>
+                        <td className="table-success">{renter.address}</td>
+                        <td className="table-danger">{renter.nId}</td>
+                        <td className="table-warning">{renter.apartNo}</td>
+                        <td className="table-info">{renter.roomNo}</td>
+                        <td className="table-dark">{renter.advanceRent}</td>
 
-                        <td class="table-light">
+                        <td className="table-light">
                           <button
                             className="btn btn-outline-primary me-2"
                             onClick={() => openUpdateModal(renter)}
@@ -121,9 +169,9 @@ const RenterDetails = () => {
             </div>
           </>
         ) : (
-          <div class="d-flex justify-content-center">
-            <div class="spinner-border text-info" role="status">
-              <span class="visually-hidden">Loading...</span>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         )}

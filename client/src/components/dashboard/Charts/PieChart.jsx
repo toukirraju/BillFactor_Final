@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "chart.js/auto";
 
 import { Chart } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getBillWidget } from "../../../redux/slices/dashboardSlice";
 
 const PieChart = () => {
-  const { apartmentWidgets, renterWidgets, billWidgets, isPending } =
+  const dispatch = useDispatch();
+
+  const { apartmentWidgets, renterWidgets, billWidgets, isPending, isReload } =
     useSelector((state) => state.dashboardData);
   // console.log(billWidgets);
+
+  useEffect(() => {
+    dispatch(getBillWidget());
+  }, [isReload, dispatch]);
   return (
     <>
       <div style={{ height: "300px" }}>

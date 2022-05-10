@@ -1,36 +1,34 @@
 import React, { useEffect } from "react";
-import "./moderatorPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import CircularNavBarTop from "./circularNavBar/CircularNavBarTop";
-import CircularNavBarBottom from "./circularNavBar/CircularNavBarBottom";
-import { allrenters } from "../../redux/slices/renterSlice";
-import { clearMessage } from "../../redux/slices/message";
-import { allApartments } from "../../redux/slices/apartmentSlice";
+import { Form } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+
+import "./moderatorPage.css";
+
 import SelectPayableRenter from "./Transactions/SelectPayableRenter";
 import BarChartCompo from "../../components/dashboard/Charts/BarChartCompo";
 import PieChart from "../../components/dashboard/Charts/PieChart";
-
-import { Form } from "react-bootstrap";
-
 import TableComponent from "../../components/dashboard/Tables/TableComponent";
+import CircularProgress from "../../components/dashboard/Charts/CircularProgress";
+import SelectRenter from "../../components/Renters/SelectRenter";
 
-import DatePicker from "react-datepicker";
-import SelectRenter from "./SelectRenter";
+import { allrenters } from "../../redux/slices/renterSlice";
+import { clearMessage } from "../../redux/slices/message";
+import { allApartments } from "../../redux/slices/apartmentSlice";
 import {
   getApartmentWidget,
   getRenterWidget,
   getBillWidget,
 } from "../../redux/slices/dashboardSlice";
-import CircularProgress from "../../components/dashboard/Charts/CircularProgress";
 import { getMonthlyTransactions } from "../../redux/slices/transactionSlice";
 
 const ModeratorDashboard = () => {
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.auth);
   const { isAdded, apartments } = useSelector((state) => state.moderator);
   const { data: renterData } = useSelector((state) => state.renterCreator);
   const { transactions } = useSelector((state) => state.transaction);
-
   const { apartmentWidgets, renterWidgets, billWidgets, isPending, isReload } =
     useSelector((state) => state.dashboardData);
 
@@ -170,28 +168,21 @@ const ModeratorDashboard = () => {
     dispatch(clearMessage());
     dispatch(getApartmentWidget());
     dispatch(getRenterWidget());
-    dispatch(getBillWidget());
+    // dispatch(getBillWidget());
     dispatch(getMonthlyTransactions({ month, year }));
   }, [isAdded, isReload, dispatch]);
   return (
     <>
-      <div className="moderatorWraper">
-        {user.role === undefined || user.role === "" ? (
-          <>
-            <CircularNavBarTop />
-            <CircularNavBarBottom />
-          </>
-        ) : null}
+      <SelectPayableRenter
+        show={payableRenter}
+        onHide={() => setPayableRenter(false)}
+      />
 
+      <SelectRenter show={findRenter} onHide={() => setFindRenter(false)} />
+
+      <div className="moderatorWraper">
         {/* select Renter Modal  */}
         <div className="Select_Section">
-          <SelectPayableRenter
-            show={payableRenter}
-            onHide={() => setPayableRenter(false)}
-          />
-
-          <SelectRenter show={findRenter} onHide={() => setFindRenter(false)} />
-
           <div className="text-center mt-3 ms-4">
             <button
               className="btn btn-outline-warning"

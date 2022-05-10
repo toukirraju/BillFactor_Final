@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import UnassignApartment from "../../pages/moderator/AssignRenterToApartment/UnassignApartment";
+import UnassignApartment from "../AssignRenterToApartment/UnassignApartment";
 import { removeLevels } from "../../redux/slices/apartmentSlice";
 import { removeRenter } from "../../redux/slices/renterSlice";
 import {

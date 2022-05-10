@@ -37,11 +37,11 @@ const NavigationBar = () => {
   return (
     <>
       <Navbar
-        className="sticky-top navbarrr bg-info"
+        className="sticky-top navbarrr bg-transparent"
         expand="md"
         collapseOnSelect="true"
       >
-        <Container className="navGlass">
+        <Container>
           <Navbar.Brand>
             <Nav.Link
               eventKey="1"
@@ -50,7 +50,8 @@ const NavigationBar = () => {
               className="text-white link d-flex"
             >
               <img src={logo} alt="logo" height="30px" />
-              <b className="text-dark">Bill</b>Factor
+              <b className="text-dark">Bill</b>
+              <b className="text-secondary">Factor</b>
             </Nav.Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />

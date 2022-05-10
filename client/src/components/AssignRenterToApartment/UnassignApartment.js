@@ -4,14 +4,13 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { allApartments } from "../../../redux/slices/apartmentSlice";
-import { assign } from "../../../redux/slices/assignRenterSlice";
-import { allrenters } from "../../../redux/slices/renterSlice";
-import { clearMessage } from "../../../redux/slices/message";
+import { allApartments } from "../../redux/slices/apartmentSlice";
+import { unAssign } from "../../redux/slices/assignRenterSlice";
+import { allrenters } from "../../redux/slices/renterSlice";
+import { clearMessage } from "../../redux/slices/message";
 
-function AssignApartment(props) {
+function UnassignApartment(props) {
   const dispatch = useDispatch();
-  const { apartments } = useSelector((state) => state.moderator);
   const { data } = useSelector((state) => state.renterCreator);
   const { isAdded } = useSelector((state) => state.assingRenter);
 
@@ -23,24 +22,19 @@ function AssignApartment(props) {
   } = useForm({});
 
   const onSubmit = (e) => {
-    let apartment = JSON.parse(e.availApartment);
-
     let renter = JSON.parse(e.availRenter);
 
-    const assignedData = {
-      apartmentId: apartment._id,
-      apartNo: apartment.apartNo,
-      roomNo: apartment.roomNo,
-      renterName: renter.renterName,
+    const unAssignedData = {
+      apartmentId: renter.apartmentId,
       renterId: renter._id,
     };
 
-    // console.log(assignedData);
-    dispatch(assign(assignedData))
+    // console.log(unAssignedData);
+    dispatch(unAssign(unAssignedData))
       .unwrap()
       .then(() => {
         reset();
-        toast.success("Successfully Created");
+        toast.success("Successfully Unassigned");
         dispatch(allApartments());
         dispatch(allrenters());
         props.onHide(false);
@@ -55,7 +49,6 @@ function AssignApartment(props) {
   //   dispatch(allrenters());
   //   dispatch(clearMessage());
   // }, [isAdded, dispatch]);
-
   return (
     <div>
       <Modal
@@ -66,7 +59,7 @@ function AssignApartment(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Assign Apartment
+            Unassign Apartment
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -80,59 +73,12 @@ function AssignApartment(props) {
                 <div className="row ">
                   <div className="col-md-12">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      {apartments ? (
-                        <>
-                          <div className="form-floating mb-3">
-                            <select
-                              className="form-select"
-                              id="floatingSelect"
-                              //aria-label="Floating label select example"
-                              //onChange={handelInputs}
-                              name="availApartment"
-                              {...register("availApartment", {
-                                required: true,
-                              })}
-                            >
-                              <option selected value="">
-                                Select Apartment
-                              </option>
-
-                              {apartments.floors.map((option, index) =>
-                                option.status === "available" ? (
-                                  // value={() => setUpdateApart(option)}
-                                  <option
-                                    key={index}
-                                    value={JSON.stringify(option)}
-                                  >
-                                    Level: {option.level} &#10148; Apartment No:{" "}
-                                    {option.apartNo} &#10148; Room No:{" "}
-                                    {option.roomNo}
-                                  </option>
-                                ) : null
-                              )}
-                            </select>
-                            <label for="floatingSelect">Apartments</label>
-                            {errors.availApartment && (
-                              <span className="text-danger d-block">
-                                This field is required
-                              </span>
-                            )}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <h2>wait....</h2>
-                        </>
-                      )}
-
                       {data ? (
                         <>
                           <div className="form-floating mb-3">
                             <select
                               className="form-select"
                               id="floatingSelect"
-                              //aria-label="Floating label select example"
-                              //onChange={handelInputs}
                               name="availRenter"
                               {...register("availRenter", { required: true })}
                             >
@@ -141,9 +87,8 @@ function AssignApartment(props) {
                               </option>
 
                               {data.renters.map((option, index) =>
-                                option.apartNo === "" &&
-                                option.roomNo === "" ? (
-                                  // value={() => setUpdateApart(option)}
+                                option.apartNo !== "" &&
+                                option.roomNo !== "" ? (
                                   <option
                                     key={index}
                                     value={JSON.stringify(option)}
@@ -154,7 +99,7 @@ function AssignApartment(props) {
                                 ) : null
                               )}
                             </select>
-                            <label for="floatingSelect">Renters</label>
+                            <label for="floatingSelect">Assigned Renters</label>
                             {errors.availRenter && (
                               <span className="text-danger d-block">
                                 This field is required
@@ -176,15 +121,9 @@ function AssignApartment(props) {
             </section>
           </div>
         </Modal.Body>
-        {/* 
-        <Modal.Footer>
-          <button type="submit" className="btn btn-primary" onClick={onSubmit}>
-            Create
-          </button>
-        </Modal.Footer> */}
       </Modal>
     </div>
   );
 }
 
-export default AssignApartment;
+export default UnassignApartment;
