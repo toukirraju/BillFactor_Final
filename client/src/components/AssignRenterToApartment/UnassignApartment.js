@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { allApartments } from "../../redux/slices/apartmentSlice";
 import { unAssign } from "../../redux/slices/assignRenterSlice";
@@ -65,10 +65,6 @@ function UnassignApartment(props) {
         <Modal.Body>
           <div>
             <section className="">
-              <div>
-                <ToastContainer />
-              </div>
-
               <div className="mx-5 ">
                 <div className="row ">
                   <div className="col-md-12">
