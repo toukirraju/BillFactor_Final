@@ -30,12 +30,6 @@ function App() {
     dispatch(logout());
   };
   return (
-    // <>
-    //   <SideMenu />
-    //   <div class="area">
-    //     <h1>hello</h1>
-    //   </div>
-    // </>
     <>
       <ToastContainer />
       <BrowserRouter>
