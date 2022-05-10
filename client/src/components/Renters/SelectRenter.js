@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { getProfileDetails } from "../../redux/slices/publicDataSlice";
-import RenterProfileModal from "../../components/renterProfile/RenterProfileModal";
+import RenterProfileModal from "../renterProfile/RenterProfileModal";
 
 function SelectRenter(props) {
   const dispatch = useDispatch();

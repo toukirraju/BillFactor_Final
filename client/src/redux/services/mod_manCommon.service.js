@@ -69,6 +69,16 @@ const getAllTempBills = () => {
     });
 };
 
+const updateTempBill = (updatedData) => {
+  return axios
+    .post(API_URL + "/bill/tempbill/updateTemp", updatedData, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const mod_manCommonService = {
   //////////////////// BIll ///////////////////////
   createBill,
@@ -80,6 +90,7 @@ const mod_manCommonService = {
   getTempBill,
   getAllTempBills,
   createTempBill,
+  updateTempBill,
 };
 
 export default mod_manCommonService;

@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
-import "../moderatorPage.css";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+
+import "../moderatorPage.css";
+
 import {
   addNewApartment,
   allApartments,
 } from "../../../redux/slices/apartmentSlice";
-import CircularNavBarTop from "../circularNavBar/CircularNavBarTop";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import UpdateModal from "./UpdateModal";
-import CircularNavBarBottom from "../circularNavBar/CircularNavBarBottom";
 import { clearMessage } from "../../../redux/slices/message";
+
 import ConfirmationPopUp from "../../../components/confirmationPopUp/ConfirmationPopUp";
+import UpdateModal from "../../../components/Apartments/UpdateModal";
 
 const ApartmentDetails = () => {
   const dispatch = useDispatch();
+
   const [updateModalShow, setUpdateModalShow] = React.useState(false);
   const [updateData, setUpdateData] = React.useState(false);
   const [removeId, setRemoveId] = React.useState(null);
@@ -78,11 +80,6 @@ const ApartmentDetails = () => {
   return (
     <>
       <div className="moderatorWraper">
-        <CircularNavBarTop />
-        <CircularNavBarBottom />
-
-        <ToastContainer />
-
         <ConfirmationPopUp
           show={confirmationPopUp}
           onHide={() => setConfirmationPopUp(false)}
@@ -106,7 +103,7 @@ const ApartmentDetails = () => {
 
         {apartments ? (
           levelAndApartmentCount(apartments.floors).map((count, index) => (
-            <>
+            <Fragment key={uuidv4()}>
               <div className="text-center container cardBody">
                 <h1 className="heading">{`Floor ${count.floor}`}</h1>
                 {/* <h5>{`Apartments ${count.apartments}`}</h5> */}
@@ -120,18 +117,19 @@ const ApartmentDetails = () => {
                           <th scope="col">Room</th>
                           <th scope="col">Rent</th>
                           <th scope="col">Gas</th>
+                          <th scope="col">Fridge</th>
                           <th scope="col">Water</th>
                           <th scope="col">Service Charge</th>
                           <th scope="col">Status</th>
-                          <th scope="col">Assigned User</th>
+                          <th scope="col">Renter</th>
                           <th scope="col">Activity</th>
                         </tr>
                       </thead>
 
                       {apartments.floors.map((newItem, idx) => {
-                        if (count.floor == newItem.level) {
+                        if (count.floor === newItem.level) {
                           return (
-                            <>
+                            <Fragment key={uuidv4()}>
                               <tbody>
                                 <tr key={idx}>
                                   <td className="table-primary">
@@ -146,6 +144,9 @@ const ApartmentDetails = () => {
                                   <td className="table-danger">
                                     {newItem.gasbill}
                                   </td>
+                                  <td className="table-danger">
+                                    {newItem.f_bill}
+                                  </td>
                                   <td className="table-warning">
                                     {newItem.waterbill}
                                   </td>
@@ -153,7 +154,13 @@ const ApartmentDetails = () => {
                                     {newItem.c_service}
                                   </td>
                                   <td className="table-dark">
-                                    {newItem.status}
+                                    {newItem.status === "available" ? (
+                                      <span className="text-danger text-uppercase">
+                                        {newItem.status}
+                                      </span>
+                                    ) : (
+                                      <span>{newItem.status}</span>
+                                    )}
                                   </td>
                                   <td className="table-secondary">
                                     {newItem.renterName}
@@ -174,7 +181,7 @@ const ApartmentDetails = () => {
                                   </td>
                                 </tr>
                               </tbody>
-                            </>
+                            </Fragment>
                           );
                         } else {
                           return null;
@@ -192,7 +199,7 @@ const ApartmentDetails = () => {
                   Add
                 </button>
               </div>
-            </>
+            </Fragment>
           ))
         ) : (
           <div className="d-flex justify-content-center">

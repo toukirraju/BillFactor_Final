@@ -159,6 +159,24 @@ export const getAllTempBill = createAsyncThunk(
   }
 );
 
+export const updateTemp = createAsyncThunk(
+  "common/updateTempBill",
+  async (updatedData, thunkAPI) => {
+    try {
+      await Mod_manCommonService.updateTempBill(updatedData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 // let temp;
 const initialState = {
   isSuccess: false,
@@ -253,6 +271,13 @@ const transactiionSlice = createSlice({
       state.allTemp = action.payload;
     },
     [getAllTempBill.rejected]: (state, action) => {
+      state.isSuccess = false;
+    },
+    [updateTemp.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isAdded = true;
+    },
+    [updateTemp.rejected]: (state, action) => {
       state.isSuccess = false;
     },
   },

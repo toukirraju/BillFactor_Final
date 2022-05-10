@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import "../moderatorPage.css";
 import "./transaction.css";
 import { useDispatch, useSelector } from "react-redux";
-import CircularNavBarTop from "../circularNavBar/CircularNavBarTop";
-import CircularNavBarBottom from "../circularNavBar/CircularNavBarBottom";
 import {
   getAllTempBill,
   getMonthlyTransactions,
@@ -13,6 +11,7 @@ import DatePicker from "react-datepicker";
 import { toast } from "react-toastify";
 import { AgGridReact } from "ag-grid-react";
 import ConfirmationPopUp from "../../../components/confirmationPopUp/ConfirmationPopUp";
+import UpdateTempBill from "../../../components/transactions/UpdateTempBill";
 
 const TransactionDetails = () => {
   const dispatch = useDispatch();
@@ -22,6 +21,8 @@ const TransactionDetails = () => {
   const { message } = useSelector((state) => state.message);
   const { isReload } = useSelector((state) => state.dashboardData);
 
+  const [tempUpdateModal, setTempUpdateModal] = React.useState(false);
+  const [updateData, setUpdateData] = React.useState({});
   const [removeId, setRemoveId] = React.useState(false);
   const [confirmationPopUp, setConfirmationPopUp] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
@@ -33,7 +34,7 @@ const TransactionDetails = () => {
     dispatch(getAllTempBill());
   }, [isAdded, isReload, dispatch]);
 
-  const columns = [
+  const tempColumns = [
     { headerName: "Name", field: "renterName", resizable: true, width: 150 },
     { headerName: "Due", field: "tempDue", resizable: true, width: 100 },
     {
@@ -43,6 +44,22 @@ const TransactionDetails = () => {
       width: 100,
     },
     { headerName: "Others Bill", field: "o_bill", resizable: true, width: 100 },
+    {
+      headerName: "Actions",
+      field: "_id",
+      resizable: true,
+      width: 120,
+      cellRendererFramework: (params) => (
+        <div>
+          <button
+            className="btn btn-outline-warning"
+            onClick={() => handleUpdateTemp(params.data)}
+          >
+            Update
+          </button>
+        </div>
+      ),
+    },
   ];
 
   function dateFormatter(params) {
@@ -109,6 +126,11 @@ const TransactionDetails = () => {
     }
   };
 
+  const handleUpdateTemp = (data) => {
+    setUpdateData(data);
+    setTempUpdateModal(true);
+  };
+
   const defaultColDef = {
     sortable: true,
     filter: true,
@@ -117,10 +139,12 @@ const TransactionDetails = () => {
 
   return (
     <>
+      <UpdateTempBill
+        show={tempUpdateModal}
+        onHide={() => setTempUpdateModal(false)}
+        data={updateData}
+      />
       <div className="moderatorWraper">
-        <CircularNavBarTop />
-        <CircularNavBarBottom />
-
         <ConfirmationPopUp
           show={confirmationPopUp}
           onHide={() => setConfirmationPopUp(false)}
@@ -178,7 +202,7 @@ const TransactionDetails = () => {
                 >
                   <AgGridReact
                     rowData={allTemp}
-                    columnDefs={columns}
+                    columnDefs={tempColumns}
                     defaultColDef={defaultColDef}
                   />
                 </div>
